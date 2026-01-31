@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rano | Breno Belarmino</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-grad-start: #080808;
+            --bg-grad-end: #1a1a1a;
+            --accent: #d1d5db; 
+            --premium-color: #00f2ff;
+            --user-msg-bg: #e5e7eb;
+            --ai-msg-bg: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(180deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- TELA DE CARREGAMENTO (SPLASH) --- */
+        #splash-screen {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease-out;
+        }
+        .splash-title { font-size: 4rem; font-weight: 800; letter-spacing: -2px; color: #fff; animation: pulse 2s infinite; }
+        .splash-sub { font-size: 0.8rem; letter-spacing: 4px; color: #666; margin-top: 10px; text-transform: uppercase; }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        /* --- CABEÇALHO --- */
+        header {
+            padding: 20px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 10;
+        }
+        
+        .header-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .header-btn:hover { background: rgba(255,255,255,0.2); }
+
+        .app-logo { font-size: 24px; font-weight: 700; letter-spacing: 1px; position: absolute; left: 50%; transform: translateX(-50%); }
+
+        /* --- ÁREA DO CHAT --- */
+        #chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 15%; 
+            display: flex; flex-direction: column; gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            font-size: 16px;
+            line-height: 1.5;
+            animation: slideUp 0.3s ease-out;
+            word-wrap: break-word;
+        }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-msg-bg);
+            color: #000;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background-color: var(--ai-msg-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #ececec;
+            border-bottom-left-radius: 4px;
+        }
+
+        .ai-message strong { color: var(--premium-color); font-weight: 600; }
+        pre { background: #111; padding: 10px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
+        code { font-family: monospace; color: #ff79c6; }
+
+        /* --- INPUT --- */
+        .input-area {
+            padding: 20px 15% 40px 15%;
+            background: linear-gradient(to top, #000, transparent);
+            display: flex; justify-content: center;
+        }
+
+        .input-box {
+            width: 100%; max-width: 800px;
+            background: #d1d5db; 
+            border-radius: 30px;
+            padding: 5px 10px 5px 25px;
+            display: flex; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        
+        .input-box:focus-within { transform: scale(1.01); background: #fff; }
+
+        #user-input {
+            flex: 1; background: transparent; border: none; outline: none;
+            font-size: 16px; color: #333; padding: 10px 0;
+        }
+
+        .send-btn {
+            background: none; border: none; cursor: pointer; padding: 10px;
+            font-size: 22px; color: #333; transition: 0.2s;
+        }
+        .send-btn:hover { transform: scale(1.1); color: #000; }
+
+        /* --- BLOQUEIO PREMIUM --- */
+        #premium-lock {
+            display: none; 
+            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+            z-index: 20000;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center;
+        }
+        .spider-icon { font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px red); }
+        .upgrade-btn {
+            margin-top: 30px; padding: 15px 40px; border-radius: 30px;
+            background: #fff; color: #000; font-weight: bold; border: none; cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            #chat-container, .input-area { padding-left: 5%; padding-right: 5%; }
+            .splash-title { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-title">RANO</div>
+        <div class="splash-sub">Nexus AI System</div>
+        <div style="margin-top:5px; font-size: 9px; opacity: 0.4;">Created by Breno Belarmino</div>
+    </div>
+
+    <header>
+        <button class="header-btn" id="status-badge">Versão Free</button>
+        <div class="app-logo" id="logo-text">Rano</div>
+        <button class="header-btn" onclick="limparTudo()"><i class="fa-solid fa-trash"></i> Reset</button>
+    </header>
+
+    <div id="chat-container"></div>
+
+    <div class="input-area">
+        <div class="input-box">
+            <input type="text" id="user-input" placeholder="Envie uma mensagem..." autocomplete="off">
+            <button class="send-btn" onclick="enviarMensagem()"><i class="fa-solid fa-circle-arrow-up"></i></button>
+        </div>
+    </div>
+
+    <div id="premium-lock" onclick="tentarDesbloqueio()">
+        <div class="spider-icon">🕷️</div>
+        <h1 style="color: #fff; text-transform: uppercase;">Limite Atingido</h1>
+        <p style="color: #777; max-width: 300px; margin-top: 10px;">Você atingiu o limite do plano gratuito.</p>
+        <button class="upgrade-btn">UPGRADE PRO</button>
+    </div>
+
+<script>
+    const SUA_CHAVE_API = "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";
+    
+    // MUDANÇA AQUI: Modelo exato que você pediu
+    const MODELO_ESCOLHIDO = "openai/gpt-oss-20b:free"; 
+
+    // Backup caso esse modelo não exista (Fallback automático para Llama 3)
+    const MODELO_BACKUP = "meta-llama/llama-3-8b-instruct:free";
+
+    let contadorMensagens = parseInt(localStorage.getItem('rano_msg_count')) || 0;
+    let isPremium = localStorage.getItem('rano_premium') === 'true';
+    let cliquesDesbloqueio = 0;
+
+    window.onload = function() {
+        setTimeout(() => {
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 800);
+        }, 2000);
+
+        carregarHistorico();
+        verificarPremium();
+
+        document.getElementById('user-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') enviarMensagem();
+        });
+    };
+
+    async function enviarMensagem() {
+        const input = document.getElementById('user-input');
+        const textoUsuario = input.value.trim();
+        
+        if (!textoUsuario) return;
+
+        if (!isPremium && contadorMensagens >= 5) {
+            document.getElementById('premium-lock').style.display = 'flex';
+            return;
+        }
+
+        adicionarBolha('user', textoUsuario);
+        input.value = ''; 
+        
+        const bolhaIA = adicionarBolha('ai', '<i class="fa-solid fa-circle-notch fa-spin"></i> Processando...');
+
+        try {
+            // Tenta o modelo principal
+            let response = await fazerRequisicao(MODELO_ESCOLHIDO, textoUsuario);
+            let data = await response.json();
+
+            // Se der erro de modelo não encontrado, tenta o backup automaticamente
+            if (data.error) {
+                console.warn("Modelo principal falhou, tentando backup...", data.error);
+                response = await fazerRequisicao(MODELO_BACKUP, textoUsuario);
+                data = await response.json();
+            }
+
+            if (data.error) {
+                bolhaIA.innerHTML = `<span style="color:#ff5555">Erro: ${data.error.message}</span>`;
+                return;
+            }
+
+            let respostaTexto = data.choices[0].message.content;
+
+            if (textoUsuario.toLowerCase().includes("quem é breno") || textoUsuario.toLowerCase().includes("quem te criou")) {
+                respostaTexto = "Fui criada e desenvolvida por **Breno Belarmino**, o arquiteto do sistema Rano.";
+            }
+
+            bolhaIA.innerHTML = marked.parse(respostaTexto);
+
+            if (!isPremium) {
+                contadorMensagens++;
+                localStorage.setItem('rano_msg_count', contadorMensagens);
+            }
+
+            salvarHistorico();
+
+        } catch (erro) {
+            console.error(erro);
+            bolhaIA.innerHTML = "⚠️ Erro de conexão. Verifique sua internet.";
+        }
+    }
+
+    // Função auxiliar para evitar repetição de código
+    async function fazerRequisicao(modelo, texto) {
+        return fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${SUA_CHAVE_API}`,
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://rano.app",
+                "X-Title": "Rano AI"
+            },
+            body: JSON.stringify({
+                "model": modelo,
+                "messages": [
+                    { "role": "system", "content": "Você é Rano. Criador: Breno Belarmino. Responda de forma concisa e útil." },
+                    { "role": "user", "content": texto }
+                ]
+            })
+        });
+    }
+
+    function adicionarBolha(tipo, conteudo) {
+        const container = document.getElementById('chat-container');
+        const div = document.createElement('div');
+        div.classList.add('message');
+        div.classList.add(tipo === 'user' ? 'user-message' : 'ai-message');
+        div.innerHTML = conteudo;
+        container.appendChild(div);
+        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+        return div;
+    }
+
+    function tentarDesbloqueio() {
+        cliquesDesbloqueio++;
+        if (cliquesDesbloqueio >= 5) {
+            isPremium = true;
+            localStorage.setItem('rano_premium', 'true');
+            document.getElementById('premium-lock').style.display = 'none';
+            verificarPremium();
+            alert("ACESSO ADMIN CONFIRMADO: BRENO BELARMINO.");
+        }
+    }
+
+    function verificarPremium() {
+        if (isPremium) {
+            const badge = document.getElementById('status-badge');
+            badge.innerText = "Rano Pro ✨";
+            badge.style.background = "var(--premium-color)";
+            badge.style.color = "#000";
+            badge.style.fontWeight = "bold";
+            document.getElementById('logo-text').style.color = "var(--premium-color)";
+        }
+    }
+
+    function salvarHistorico() {
+        localStorage.setItem('rano_history', document.getElementById('chat-container').innerHTML);
+    }
+
+    function carregarHistorico() {
+        const history = localStorage.getItem('rano_history');
+        if (history) document.getElementById('chat-container').innerHTML = history;
+    }
+
+    function limparTudo() {
+        localStorage.clear();
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
