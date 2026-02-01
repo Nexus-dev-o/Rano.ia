@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rano AI v1.2 | Powered by Nexus</title>
+    <title>Rano AI 1.2 | Powered by Nexus</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* ===== ESTILO VISUAL (Baseado no Arquivo Cinza/Violeta) ===== */
         :root {
             --bg: #1a1a1a;
             --bg-light: #2a2a2a;
@@ -21,8 +20,6 @@
             --text-muted: #999;
             --border: rgba(139, 122, 219, 0.2);
             --glass: rgba(255, 255, 255, 0.03);
-            --danger: #ff6b6b;
-            --success: #51cf66;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,184 +32,1029 @@
         }
 
         /* ===== LANDING PAGE ===== */
-        #landing-page { display: block; }
-        #landing-page.hidden { display: none; }
-
-        .landing-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; border-bottom: 1px solid rgba(255,255,255,0.05);
-            position: sticky; top: 0; background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px); z-index: 100;
+        #landing-page {
+            display: block;
         }
 
-        .logo-version { font-size: 18px; font-weight: 700; color: var(--primary); }
-        .logo-version span { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+        #landing-page.hidden {
+            display: none;
+        }
 
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        /* Header */
+        .landing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
 
-        .header-actions { display: flex; gap: 15px; }
-        .btn-login { padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 500; }
-        .btn-login:hover { background: var(--glass); border-color: var(--primary); }
-        .btn-start { padding: 10px 24px; background: var(--primary); border: none; color: #fff; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 600; }
-        .btn-start:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .logo-version {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
 
-        .hero-section { text-align: center; padding: 100px 8% 60px; }
-        .hero-section h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
-        .hero-section .version-tag { display: inline-block; padding: 6px 16px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--primary); margin-bottom: 30px; }
-        .hero-subtitle { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 50px; }
+        .logo-version span {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }
 
-        .prompt-input-container { max-width: 700px; margin: 0 auto; position: relative; }
-        .prompt-input { width: 100%; padding: 20px 24px; background: var(--bg-light); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; outline: none; transition: 0.3s; }
-        .prompt-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 122, 219, 0.1); }
-        .prompt-suggestions { position: absolute; left: 24px; top: 20px; pointer-events: none; color: var(--text-muted); font-size: 16px; transition: 0.3s; }
-        .prompt-input:focus + .prompt-suggestions, .prompt-input:not(:placeholder-shown) + .prompt-suggestions { opacity: 0; }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
 
-        .prompt-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; margin: 50px auto 0; }
-        .prompt-card { background: var(--bg-light); border: 2px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer; transition: 0.3s; text-align: left; }
-        .prompt-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 122, 219, 0.2); }
-        .prompt-card i { font-size: 24px; color: var(--primary); margin-bottom: 12px; display: block; }
-        .prompt-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-        .prompt-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-        .feature-section { padding: 100px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-        .feature-content h2 { font-size: 40px; font-weight: 700; margin-bottom: 20px; }
-        .feature-content p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; }
-        .feature-list { display: flex; flex-direction: column; gap: 12px; }
-        .feature-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text); }
-        .feature-item i { color: var(--primary); }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
 
-        .code-preview { background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; overflow: hidden; position: relative; }
-        .code-preview::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), #6b5ab5); }
-        .code-line { display: block; animation: fadeInCode 0.5s ease forwards; opacity: 0; }
-        .code-line:nth-child(1) { animation-delay: 0.1s; } .code-line:nth-child(2) { animation-delay: 0.2s; } .code-line:nth-child(3) { animation-delay: 0.3s; }
-        @keyframes fadeInCode { to { opacity: 1; } }
-        .keyword { color: #c586c0; } .function { color: #dcdcaa; } .string { color: #ce9178; } .comment { color: #6a9955; }
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
 
-        #pricing, #faq { padding: 100px 8%; }
-        .pricing-header, .faq-header { text-align: center; margin-bottom: 60px; }
-        .pricing-header h2, .faq-header h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
-        .pricing-header p { font-size: 16px; color: var(--text-muted); }
-        
-        .pricing-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 900px; margin: 0 auto; }
-        .pricing-card { background: var(--bg-light); border: 2px solid var(--border); border-radius: 16px; padding: 40px; transition: 0.3s; }
-        .pricing-card:hover { border-color: var(--primary); transform: translateY(-8px); }
-        .pricing-card.featured { border-color: var(--primary); position: relative; }
-        .pricing-card.featured::before { content: 'POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-        .plan-name { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
-        .plan-price { font-size: 48px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
-        .plan-price span { font-size: 16px; color: var(--text-muted); font-weight: 500; }
-        .plan-features { list-style: none; margin: 30px 0; }
-        .plan-features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
-        .plan-features li i { color: var(--primary); font-size: 14px; }
-        .btn-plan { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-plan:hover { background: var(--primary-dark); }
+        .btn-login {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
 
-        .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--bg-light); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: 0.3s; }
-        .faq-item:hover { border-color: var(--primary); }
-        .faq-question { font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .faq-answer { margin-top: 16px; color: var(--text-muted); line-height: 1.7; display: none; }
-        .faq-item.open .faq-answer { display: block; }
-        .faq-item.open .faq-question i { transform: rotate(180deg); }
+        .btn-login:hover {
+            background: var(--glass);
+            border-color: var(--primary);
+        }
 
-        .footer { padding: 60px 8%; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
-        .footer-section h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
-        .footer-section a { display: block; color: var(--text-muted); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: 0.3s; }
-        .footer-section a:hover { color: var(--primary); }
-        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text-muted); }
+        .btn-start {
+            padding: 10px 24px;
+            background: var(--primary);
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
 
-        /* ===== MODAL DE AUTENTICAÇÃO ===== */
-        #auth-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .auth-container { display: flex; width: 90%; max-width: 1000px; background: var(--bg-light); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-        .auth-image { flex: 1; background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920') center/cover; }
-        .auth-form-container { flex: 0.8; padding: 60px; }
-        .auth-form-container h2 { font-size: 32px; font-weight: 700; margin-bottom: 40px; color: var(--primary); }
-        .auth-form-container input { width: 100%; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); margin-bottom: 20px; outline: none; transition: 0.3s; }
-        .auth-form-container input:focus { border-color: var(--primary); }
-        .auth-submit { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .auth-submit:hover { background: var(--primary-dark); }
+        .btn-start:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
 
-        /* ===== DASHBOARD (ÁREA DO CHAT) ===== */
-        #dashboard { display: none; flex-direction: column; height: 100vh; }
-        #dashboard.active { display: flex; }
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 100px 8% 60px;
+        }
 
-        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; border-bottom: 1px solid rgba(255,255,255,0.05); background: var(--bg); }
-        .user-info-dash { display: flex; align-items: center; gap: 12px; }
-        .user-avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; text-transform: uppercase;}
-        .user-name-dash { font-weight: 600; font-size: 14px; }
-        .dash-actions { display: flex; align-items: center; gap: 20px; }
-        .tier-badge-dash { padding: 6px 16px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; }
-        .tier-pro { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .dash-btn { background: none; border: none; color: var(--text); cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .dash-btn:hover { color: var(--primary); }
+        .hero-section h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
 
-        /* Área de Mensagens */
-        #chat-area { flex: 1; overflow-y: auto; padding: 40px 20%; display: flex; flex-direction: column; gap: 24px; scroll-behavior: smooth; }
-        
-        .message-bubble { max-width: 80%; padding: 20px; border-radius: 16px; line-height: 1.6; animation: fadeIn 0.3s ease; position: relative; font-size: 15px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .user-bubble { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; font-weight: 500; }
-        .ai-bubble { align-self: flex-start; background: var(--bg-light); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+        .hero-section .version-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
 
-        /* Blocos de Código */
-        .code-block-container { background-color: #1e1e1e; border-radius: 10px; margin: 15px 0; overflow: hidden; font-family: 'Courier New', monospace; border: 1px solid rgba(255,255,255,0.1); }
-        .code-header { display: flex; justify-content: space-between; align-items: center; background-color: #2d2d2d; padding: 8px 16px; color: #abb2bf; font-size: 12px; border-bottom: 1px solid #3e4451; }
-        .copy-code-btn { background: rgba(139, 122, 219, 0.2); border: none; color: var(--primary); cursor: pointer; font-size: 12px; padding: 5px 12px; border-radius: 4px; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
-        .copy-code-btn:hover { background: rgba(139, 122, 219, 0.4); }
-        .ai-bubble pre { margin: 0; padding: 16px; overflow-x: auto; color: #abb2bf; background: #1e1e1e; }
-        .ai-bubble code { font-family: Consolas, Monaco, monospace; font-size: 13px; }
-        .ai-bubble strong { font-weight: 700; color: var(--primary); }
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
 
-        /* Input */
-        .chat-input-container { padding: 30px 20%; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); }
-        .chat-input-box { display: flex; gap: 12px; background: var(--bg-light); padding: 12px 20px; border-radius: 24px; border: 2px solid var(--border); transition: 0.3s; }
-        .chat-input-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 122, 219, 0.1); }
-        .chat-input { flex: 1; background: transparent; border: none; color: var(--text); outline: none; font-size: 15px; }
-        .send-button { background: var(--primary); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
-        .send-button:hover { background: var(--primary-dark); transform: scale(1.1); }
-        .send-button:disabled { background: #444; cursor: not-allowed; transform: none; }
+        /* Prompt Input */
+        .prompt-input-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-        /* Modais (Config, Histórico, Planos) */
-        #config-modal, #plans-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .config-content, .plans-content { background: var(--bg-light); padding: 40px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid var(--border); }
-        .config-content h2 { font-size: 24px; font-weight: 700; margin-bottom: 30px; color: var(--primary); }
-        .config-content label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); }
-        .config-content input, .config-content select { width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); margin-bottom: 20px; outline: none; transition: 0.3s; }
-        .config-content input:focus { border-color: var(--primary); }
-        .config-buttons { display: flex; gap: 12px; margin-top: 30px; }
-        .config-buttons button { flex: 1; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-validate { background: var(--primary); color: #fff; border: none; }
-        .btn-validate:hover { background: var(--primary-dark); }
-        .btn-cancel-config { background: transparent; border: 1px solid var(--border); color: var(--text); }
-        .btn-cancel-config:hover { background: rgba(255,255,255,0.05); }
+        .prompt-input {
+            width: 100%;
+            padding: 20px 24px;
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
 
-        #history-modal { position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--bg-light); border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.3s; z-index: 999; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
-        #history-modal.open { transform: translateX(0); }
-        .history-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .history-list { padding: 16px; }
-        .history-item-dash { padding: 16px; background: var(--bg); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
-        .history-item-dash:hover { border-color: var(--primary); background: rgba(139, 122, 219, 0.05); }
-        .history-item-dash.active { border-color: var(--primary); background: rgba(139, 122, 219, 0.1); }
-        .history-item-dash h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
-        .history-item-dash p { font-size: 11px; color: var(--text-muted); }
-        .btn-new-chat { width: 100%; padding: 15px; margin-bottom: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-new-chat:hover { background: var(--primary-dark); }
+        .prompt-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 122, 219, 0.1);
+        }
+
+        .prompt-suggestions {
+            position: absolute;
+            left: 24px;
+            top: 20px;
+            pointer-events: none;
+            color: var(--text-muted);
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .prompt-input:focus + .prompt-suggestions,
+        .prompt-input:not(:placeholder-shown) + .prompt-suggestions {
+            opacity: 0;
+        }
+
+        /* Prompt Cards */
+        .prompt-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+
+        .prompt-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: left;
+        }
+
+        .prompt-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 122, 219, 0.2);
+        }
+
+        .prompt-card i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .prompt-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .prompt-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
 
         @media (max-width: 768px) {
+            .prompt-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Feature Section */
+        .feature-section {
+            padding: 100px 8%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .feature-content h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .feature-content p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .feature-item i {
+            color: var(--primary);
+        }
+
+        /* Code Preview */
+        .code-preview {
+            background: #1e1e1e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .code-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #6b5ab5);
+        }
+
+        .code-line {
+            display: block;
+            animation: fadeInCode 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .code-line:nth-child(1) { animation-delay: 0.1s; }
+        .code-line:nth-child(2) { animation-delay: 0.2s; }
+        .code-line:nth-child(3) { animation-delay: 0.3s; }
+        .code-line:nth-child(4) { animation-delay: 0.4s; }
+        .code-line:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInCode {
+            to { opacity: 1; }
+        }
+
+        .keyword { color: #c586c0; }
+        .function { color: #dcdcaa; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+
+        /* Pricing */
+        #pricing {
+            padding: 100px 8%;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .pricing-header h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .pricing-header p {
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            transition: 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .plan-price span {
+            font-size: 16px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .plan-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .plan-features li i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .btn-plan {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-plan:hover {
+            background: var(--primary-dark);
+        }
+
+        /* FAQ */
+        #faq {
+            padding: 100px 8%;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .faq-header h2 {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-question {
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 16px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Partner */
+        .partner-section {
+            padding: 60px 8%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .partner-section p {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .partner-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px rgba(139, 122, 219, 0.5));
+        }
+
+        .symbol {
+            font-size: 48px;
+            font-weight: bold;
+            border: 2px solid white;
+            padding: 10px 14px;
+        }
+
+        .brand {
+            font-size: 26px;
+            line-height: 1;
+            text-align: left;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 14px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 60px 8%;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ===== AUTH MODAL ===== */
+        #auth-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 90%;
+            max-width: 1000px;
+            background: var(--bg-light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .auth-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920') center/cover;
+        }
+
+        .auth-form-container {
+            flex: 0.8;
+            padding: 60px;
+        }
+
+        .auth-form-container h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--primary);
+        }
+
+        .auth-form-container input {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            margin-bottom: 20px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .auth-form-container input:focus {
+            border-color: var(--primary);
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .auth-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ===== DASHBOARD ===== */
+        #dashboard {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #dashboard.active {
+            display: flex;
+        }
+
+        /* Dashboard Header */
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: var(--bg);
+        }
+
+        .user-info-dash {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .user-name-dash {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .dash-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .tier-badge-dash {
+            padding: 6px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tier-pro {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .dash-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .dash-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Chat Area */
+        #chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 20%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-bubble {
+            align-self: flex-end;
+            background: var(--primary);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-bubble {
+            align-self: flex-start;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+        }
+
+        /* Code Blocks in Chat */
+        .code-block-container {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2d2d2d;
+            padding: 8px 16px;
+            color: #abb2bf;
+            font-size: 12px;
+            border-bottom: 1px solid #3e4451;
+        }
+
+        .copy-code-btn {
+            background: rgba(139, 122, 219, 0.2);
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        .copy-code-btn:hover {
+            background: rgba(139, 122, 219, 0.4);
+        }
+
+        .ai-bubble pre {
+            margin: 0;
+            padding: 16px;
+            overflow-x: auto;
+            color: #abb2bf;
+            background: #1e1e1e;
+        }
+
+        .ai-bubble code {
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .ai-bubble strong {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            padding: 30px 20%;
+            background: var(--bg);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .chat-input-box {
+            display: flex;
+            gap: 12px;
+            background: var(--bg-light);
+            padding: 12px 20px;
+            border-radius: 24px;
+            border: 2px solid var(--border);
+        }
+
+        .chat-input-box:focus-within {
+            border-color: var(--primary);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+        }
+
+        .send-button {
+            background: var(--primary);
+            border: none;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Config Modal */
+        #config-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .config-content {
+            background: var(--bg-light);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border);
+        }
+
+        .config-content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .config-content label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+        }
+
+        .config-content input {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .config-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .config-buttons button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-validate {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-validate:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-cancel-config {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        /* History Modal */
+        #history-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100vh;
+            background: var(--bg-light);
+            border-left: 1px solid var(--border);
+            transform: translateX(100%);
+            transition: 0.3s;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        #history-modal.open {
+            transform: translateX(0);
+        }
+
+        .history-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .close-history {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .history-list {
+            padding: 16px;
+        }
+
+        .history-item-dash {
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .history-item-dash:hover {
+            border-color: var(--primary);
+        }
+
+        .history-item-dash h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .history-item-dash p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Plans Modal */
+        #plans-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .plans-content {
+            background: var(--bg-light);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
             .nav-links { display: none; }
-            .feature-section, .pricing-cards, .footer-content { grid-template-columns: 1fr; }
-            #chat-area, .chat-input-container { padding-left: 5%; padding-right: 5%; }
-            .message-bubble { max-width: 90%; }
-            #history-modal { width: 85%; }
+            .feature-section { grid-template-columns: 1fr; }
+            .pricing-cards { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            #chat-area { padding: 40px 5%; }
+            .chat-input-container { padding: 20px 5%; }
+            #history-modal { width: 90%; }
         }
     </style>
 </head>
 <body>
 
+    <!-- LANDING PAGE -->
     <div id="landing-page">
         <header class="landing-header">
             <div class="logo-version">
@@ -236,7 +1078,7 @@
             </p>
 
             <div class="prompt-input-container">
-                <input type="text" class="prompt-input" id="landing-input" placeholder=" " onkeypress="if(event.key==='Enter') useLandingPrompt(this.value)">
+                <input type="text" class="prompt-input" id="landing-input" placeholder=" " onkeypress="if(event.key==='Enter') openAuth()">
                 <div class="prompt-suggestions" id="suggestion-text">Crie uma dashboard financeira completa...</div>
             </div>
 
@@ -267,44 +1109,181 @@
         <section class="feature-section" id="recursos">
             <div class="feature-content">
                 <h2>Crie seu app do seu jeito</h2>
-                <p>A Rano AI transforma suas ideias em aplicações reais com lógica avançada.</p>
+                <p>Dê a ideia, deploy em minutos sem código e sem compilação. A Rano AI transforma suas ideias em aplicações reais.</p>
+                
                 <div class="feature-list">
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Criação de APIs REST</span></div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Dashboards interativos</span></div>
-                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Histórico persistente</span></div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Criação de APIs REST completas</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Dashboards interativos e responsivos</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Deploy automático e escalável</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ajustes simples em tempo real</span>
+                    </div>
                 </div>
             </div>
+
             <div class="code-preview">
                 <span class="code-line"><span class="keyword">const</span> <span class="function">createAPI</span> = () => {</span>
                 <span class="code-line">  <span class="keyword">return</span> {</span>
-                <span class="code-line">    status: <span class="string">'active'</span>,</span>
-                <span class="code-line">    poweredBy: <span class="string">'Rano v1.2'</span></span>
+                <span class="code-line">    endpoint: <span class="string">'/api/users'</span>,</span>
+                <span class="code-line">    method: <span class="string">'GET'</span>,</span>
+                <span class="code-line">    response: <span class="string">'success'</span></span>
                 <span class="code-line">  }</span>
                 <span class="code-line">}</span>
+                <span class="code-line"><span class="comment">// Criado por Rano AI</span></span>
             </div>
         </section>
 
+        <section id="pricing">
+            <div class="pricing-header">
+                <h2>Planos Disponíveis</h2>
+                <p>Escolha o plano ideal para suas necessidades</p>
+            </div>
+
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">R$ 16<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 5 chats por dia</li>
+                        <li><i class="fas fa-check"></i> Modelo Standard</li>
+                        <li><i class="fas fa-check"></i> Histórico limitado</li>
+                        <li><i class="fas fa-check"></i> Suporte por email</li>
+                    </ul>
+                    <button class="btn-plan" onclick="alert('Plano em breve! Este é um protótipo.')">Assinar Starter</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">R$ 38<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Chats ilimitados</li>
+                        <li><i class="fas fa-check"></i> Modelo Advanced</li>
+                        <li><i class="fas fa-check"></i> Sem marca d'água</li>
+                        <li><i class="fas fa-check"></i> Integração com APIs</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                    </ul>
+                    <button class="btn-plan" onclick="alert('Plano em breve! Este é um protótipo.')">Assinar Pro</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <div class="faq-header">
+                <h2>Perguntas Frequentes</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        O que é a Rano AI?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        A Rano AI é uma plataforma de inteligência artificial desenvolvida pela Nexus que permite criar aplicações, dashboards e APIs sem código.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        Preciso saber programar?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Não! A Rano AI foi projetada para que qualquer pessoa possa criar aplicações apenas descrevendo suas ideias.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        Como funciona o plano Pro?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        O plano Pro oferece acesso ilimitado ao modelo Advanced, sem marcas d'água e com integrações completas de API.
+                    </div>
+                </div>
+
+                <div class="faq-item" onclick="this.classList.toggle('open')">
+                    <div class="faq-question">
+                        Posso cancelar a qualquer momento?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! Você pode cancelar sua assinatura a qualquer momento sem custos adicionais.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="partner-section">
+            <p>PARCEIRO OFICIAL</p>
+            <a href="https://indie-game-landing-2mgmtk14.sites.blink.new/wiki?v=1769917229388&t=1769917229388" target="_blank" class="partner-logo">
+                <div class="symbol">▣</div>
+                <div class="brand">
+                    <strong>PixelCore</strong>
+                    <span>Studio</span>
+                </div>
+            </a>
+        </div>
+
         <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Produto</h4>
+                    <a href="#recursos">Recursos</a>
+                    <a href="#pricing">Preços</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Empresa</h4>
+                    <a href="#">Sobre</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Carreiras</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Suporte</h4>
+                    <a href="#">Documentação</a>
+                    <a href="#">Contato</a>
+                    <a href="#">Status</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#">Termos</a>
+                    <a href="#">Privacidade</a>
+                </div>
+            </div>
             <div class="footer-bottom">
                 © 2026 Rano AI - Powered by Nexus | Todos os direitos reservados
             </div>
         </footer>
     </div>
 
+    <!-- AUTH MODAL -->
     <div id="auth-modal">
         <div class="auth-container">
             <div class="auth-image"></div>
             <div class="auth-form-container">
                 <h2>Bem-vindo à Rano</h2>
-                <input type="text" id="auth-name" placeholder="Nome de Usuário">
+                <input type="text" id="auth-name" placeholder="Nome">
                 <input type="email" id="auth-email" placeholder="Email">
-                <button class="auth-submit" onclick="finishAuth()">
-                    <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
+                <button class="auth-submit" onclick="handleLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- DASHBOARD -->
     <div id="dashboard">
         <header class="dash-header">
             <div class="user-info-dash">
@@ -320,7 +1299,7 @@
                 <button class="dash-btn" onclick="toggleHistory()" title="Histórico">
                     <i class="fas fa-history"></i>
                 </button>
-                <button class="dash-btn" onclick="openConfigModal()" title="Configurações">
+                <button class="dash-btn" onclick="openConfig()" title="Configurações">
                     <i class="fas fa-cog"></i>
                 </button>
                 <button class="dash-btn" onclick="logout()" title="Sair">
@@ -329,67 +1308,65 @@
             </div>
         </header>
 
-        <div id="chat-area">
-            <div style="text-align:center; margin-top: 100px; color: var(--text-muted); opacity: 0.5;">
-                <i class="fas fa-robot" style="font-size: 48px; margin-bottom: 20px;"></i>
-                <p>Rano AI v1.2 pronta para iniciar.</p>
-            </div>
-        </div>
+        <div id="chat-area"></div>
 
         <div class="chat-input-container">
             <div class="chat-input-box">
-                <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') executeNexus()">
-                <button class="send-button" id="send-btn" onclick="executeNexus()">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') sendMessage()">
+                <button class="send-button" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- CONFIG MODAL -->
     <div id="config-modal">
         <div class="config-content">
-            <h2><i class="fas fa-cog"></i> Configurações</h2>
-            
+            <h2>Configurações</h2>
             <label>Chave API OpenRouter</label>
-            <input type="password" id="api-key-input" placeholder="sk-or-v1-xxxxxxxxxxxxxxxx">
+            <input type="password" id="api-key-input" placeholder="sk-or-v1-...">
             
-            <label>Modelo de IA</label>
-            <select id="model-selector">
-                <option value="openai/gpt-oss-120b:free">Rano Standard (GPT OSS 120B - Free)</option>
-                <option value="google/gemini-2.0-flash-lite-preview-02-05:free">Rano Flash (Google - Rápido)</option>
-                <option value="z-ai/glm-4.5-air:free">Rano Advanced (Z-AI - Balanceado)</option>
-            </select>
+            <label>User ID</label>
+            <input type="text" id="user-id-input" placeholder="Seu User ID">
 
-            <div id="config-status-message" style="margin-top: 10px; font-size: 13px; min-height: 20px;"></div>
+            <div id="config-status" style="margin-top: 10px; font-size: 13px;"></div>
 
             <div class="config-buttons">
-                <button class="btn-validate" onclick="saveAndValidateConfig()">Salvar e Validar</button>
-                <button class="btn-cancel-config" onclick="closeConfigModal()">Cancelar</button>
+                <button class="btn-validate" onclick="validateConfig()">Validar</button>
+                <button class="btn-cancel-config" onclick="closeConfig()">Cancelar</button>
             </div>
         </div>
     </div>
 
+    <!-- HISTORY MODAL -->
     <div id="history-modal">
         <div class="history-header">
             <h3>Histórico</h3>
-            <button class="dash-btn" onclick="toggleHistory()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="history-list">
-            <button class="btn-new-chat" onclick="startNewChat()">
-                <i class="fas fa-plus"></i> Novo Chat
+            <button class="close-history" onclick="toggleHistory()">
+                <i class="fas fa-times"></i>
             </button>
-            <div id="history-list-content"></div>
+        </div>
+        <div class="history-list" id="history-list">
+            <div class="history-item-dash">
+                <h4>Exemplo de conversa</h4>
+                <p>Há 2 dias</p>
+            </div>
         </div>
     </div>
 
+    <!-- PLANS MODAL -->
     <div id="plans-modal">
         <div class="plans-content">
             <h2 style="margin-bottom: 20px;">Escolha seu Plano</h2>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">Upgrade para Pro e tenha acesso ilimitado</p>
+            
             <div style="background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--primary);">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">Plano Pro (API Própria)</h3>
-                <p style="font-size: 14px; color: var(--text-muted);">Configure sua própria chave API nas configurações para uso ilimitado e modelos avançados.</p>
-                <button class="btn-plan" style="margin-top: 15px;" onclick="closePlansModal(); openConfigModal();">Configurar Agora</button>
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Plano Starter - R$ 16/mês</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">5 chats por dia • Modelo Standard</p>
+                <button class="btn-plan" style="margin-top: 15px;" onclick="alert('Em breve!')">Assinar</button>
             </div>
+
             <button class="btn-cancel-config" style="width: 100%; padding: 14px;" onclick="closePlansModal()">Fechar</button>
         </div>
     </div>
@@ -397,347 +1374,175 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
-        // --- CONSTANTES E SETUP ---
+        // --- CONFIGURAÇÃO API ---
         const API_URL = "https://openrouter.ai/api/v1/chat/completions";
-        const CHAT_KEY = 'rano_v12_history';
-        const USER_KEY = 'rano_v12_user';
-        const CONFIG_KEY = 'rano_v12_config';
+        const DEFAULT_MODEL = "openai/gpt-oss-120b:free";
+        const ADVANCED_MODEL = "z-ai/glm-4.5-air:free";
 
-        // Estado Global
-        let allChats = {};
-        let currentChatId = null;
+        // State
+        let isLoggedIn = false;
+        let currentUser = null;
+        let isPro = false;
         let apiKey = null;
-        let currentModel = "openai/gpt-oss-120b:free";
+        let chatHistory = [];
         let pendingPrompt = null;
-        let isPro = false; // "Pro" agora significa que tem chave de API válida
 
-        // --- INICIALIZAÇÃO ---
-        window.onload = () => {
-            checkAuth();
-            
-            // Animação das sugestões na Landing
-            const suggestions = [
-                "Crie uma dashboard financeira completa...",
-                "Desenvolva uma API REST de usuários...",
-                "Construa um app de tarefas com React...",
-                "Gere um sistema de autenticação JWT..."
-            ];
-            let currentSuggestion = 0;
-            setInterval(() => {
-                const el = document.getElementById('suggestion-text');
-                if(el) {
-                    el.style.opacity = '0';
-                    setTimeout(() => {
-                        currentSuggestion = (currentSuggestion + 1) % suggestions.length;
-                        el.textContent = suggestions[currentSuggestion];
-                        el.style.opacity = '1';
-                    }, 300);
-                }
-            }, 3000);
-        };
+        // Prompt Suggestions Animation
+        const suggestions = [
+            "Crie uma dashboard financeira completa...",
+            "Desenvolva uma API REST de usuários...",
+            "Construa um app de tarefas com React...",
+            "Gere um sistema de autenticação JWT..."
+        ];
+        let currentSuggestion = 0;
 
-        // --- AUTENTICAÇÃO E NAVEGAÇÃO ---
-        function checkAuth() {
-            const userData = localStorage.getItem(USER_KEY);
-            if (userData) {
-                const user = JSON.parse(userData);
-                loadDashboard(user);
-            } else {
-                document.getElementById('landing-page').classList.remove('hidden');
-                document.getElementById('dashboard').classList.remove('active');
+        setInterval(() => {
+            const suggestionEl = document.getElementById('suggestion-text');
+            if(suggestionEl) {
+                suggestionEl.style.opacity = '0';
+                setTimeout(() => {
+                    currentSuggestion = (currentSuggestion + 1) % suggestions.length;
+                    suggestionEl.textContent = suggestions[currentSuggestion];
+                    suggestionEl.style.opacity = '1';
+                }, 300);
             }
+        }, 3000);
+
+        // Landing Prompt Cards
+        function useLandingPrompt(prompt) {
+            pendingPrompt = prompt;
+            openAuth();
         }
 
+        // Auth
         function openAuth() {
             document.getElementById('auth-modal').style.display = 'flex';
         }
 
-        function finishAuth() {
+        function handleLogin() {
             const name = document.getElementById('auth-name').value.trim();
             const email = document.getElementById('auth-email').value.trim();
 
-            if (!name) {
-                alert('Por favor, insira seu nome.');
+            if(!name || !email) {
+                alert('Preencha todos os campos');
                 return;
             }
 
-            const user = { name, email, joined: Date.now() };
-            localStorage.setItem(USER_KEY, JSON.stringify(user));
-            
+            currentUser = { name, email };
+            isLoggedIn = true;
+
             document.getElementById('auth-modal').style.display = 'none';
-            loadDashboard(user);
-
-            // Processa prompt pendente da landing page
-            if(pendingPrompt) {
-                setTimeout(() => {
-                    document.getElementById('chat-input').value = pendingPrompt;
-                    executeNexus();
-                    pendingPrompt = null;
-                }, 1000);
-            }
-        }
-
-        function loadDashboard(user) {
             document.getElementById('landing-page').classList.add('hidden');
             document.getElementById('dashboard').classList.add('active');
-            
-            document.getElementById('user-name-display').textContent = user.name;
-            document.getElementById('user-avatar').textContent = user.name.charAt(0);
 
-            // Carrega Configs e Chats
-            loadApiConfig();
-            loadAllChats();
+            document.getElementById('user-name-display').textContent = name;
+            document.getElementById('user-avatar').textContent = name[0].toUpperCase();
+
+            // Se tinha prompt pendente, usa ele
+            if(pendingPrompt) {
+                document.getElementById('chat-input').value = pendingPrompt;
+                pendingPrompt = null;
+                setTimeout(() => sendMessage(), 500);
+            }
         }
 
         function logout() {
-            if (confirm('Deseja realmente sair?')) {
-                localStorage.removeItem(USER_KEY);
-                location.reload();
+            if(confirm('Deseja sair?')) {
+                isLoggedIn = false;
+                currentUser = null;
+                isPro = false;
+                apiKey = null;
+                chatHistory = [];
+                document.getElementById('chat-area').innerHTML = '';
+                document.getElementById('dashboard').classList.remove('active');
+                document.getElementById('landing-page').classList.remove('hidden');
             }
         }
 
-        function useLandingPrompt(text) {
-            if(!text) text = document.getElementById('landing-input').value;
-            pendingPrompt = text;
-            const userData = localStorage.getItem(USER_KEY);
-            if(userData) {
-                loadDashboard(JSON.parse(userData));
-                document.getElementById('chat-input').value = text;
-                executeNexus();
-            } else {
-                openAuth();
-            }
+        // Config
+        function openConfig() {
+            document.getElementById('config-modal').style.display = 'flex';
         }
 
-        // --- SISTEMA DE CHAT E HISTÓRICO (Lógica "Matrix" adaptada) ---
-        function loadAllChats() {
-            const stored = localStorage.getItem(CHAT_KEY);
-            allChats = stored ? JSON.parse(stored) : {};
-            
-            // Renderiza histórico
-            renderHistoryList();
-
-            // Abre o último chat ou cria novo
-            const sortedIds = Object.keys(allChats).sort((a, b) => b - a);
-            if (sortedIds.length > 0) {
-                loadChat(sortedIds[0]);
-            } else {
-                startNewChat();
-            }
+        function closeConfig() {
+            document.getElementById('config-modal').style.display = 'none';
         }
 
-        function saveCurrentChat(messages) {
-            if (!currentChatId) return;
+        async function validateConfig() {
+            const userApiKey = document.getElementById('api-key-input').value.trim();
+            const userId = document.getElementById('user-id-input').value.trim();
+            const status = document.getElementById('config-status');
 
-            // Define título baseado na primeira mensagem do usuário
-            const firstUserMsg = messages.find(m => m.role === 'user');
-            const title = firstUserMsg ? firstUserMsg.content.substring(0, 30) + '...' : 'Novo Chat';
-
-            allChats[currentChatId] = {
-                id: currentChatId,
-                title: title,
-                messages: messages,
-                timestamp: Date.now()
-            };
-
-            localStorage.setItem(CHAT_KEY, JSON.stringify(allChats));
-            renderHistoryList();
-        }
-
-        function renderHistoryList() {
-            const container = document.getElementById('history-list-content');
-            container.innerHTML = '';
-            
-            const sortedIds = Object.keys(allChats).sort((a, b) => b - a);
-
-            sortedIds.forEach(id => {
-                const chat = allChats[id];
-                const item = document.createElement('div');
-                item.className = `history-item-dash ${id === currentChatId ? 'active' : ''}`;
-                
-                // Formata data
-                const date = new Date(parseInt(id)).toLocaleDateString();
-
-                item.innerHTML = `
-                    <h4>${chat.title}</h4>
-                    <p>${date}</p>
-                `;
-                item.onclick = () => {
-                    loadChat(id);
-                    // Fecha modal no mobile
-                    if(window.innerWidth < 768) toggleHistory();
-                };
-                container.appendChild(item);
-            });
-        }
-
-        function startNewChat() {
-            currentChatId = Date.now().toString();
-            allChats[currentChatId] = {
-                id: currentChatId,
-                title: 'Novo Chat',
-                messages: [],
-                timestamp: Date.now()
-            };
-            document.getElementById('chat-area').innerHTML = `
-                <div style="text-align:center; margin-top: 100px; color: var(--text-muted); opacity: 0.5;">
-                    <i class="fas fa-bolt" style="font-size: 48px; margin-bottom: 20px;"></i>
-                    <p>Nova sessão iniciada.</p>
-                </div>
-            `;
-            if(window.innerWidth < 768) toggleHistory(); // Fecha modal
-            renderHistoryList();
-        }
-
-        function loadChat(id) {
-            currentChatId = id;
-            const chat = allChats[id];
-            const chatArea = document.getElementById('chat-area');
-            chatArea.innerHTML = '';
-
-            chat.messages.forEach(msg => {
-                if (msg.role !== 'system') {
-                    addBubble(msg.content, msg.role === 'user' ? 'user' : 'ai', msg.role === 'assistant');
-                }
-            });
-            renderHistoryList();
-        }
-
-        // --- EXECUÇÃO DA IA (CORE) ---
-        async function executeNexus() {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            
-            if (!text) return;
-
-            // Se não tiver chave configurada (simulação de plano free limitado ou erro)
-            if (!apiKey && Object.keys(allChats[currentChatId]?.messages || []).length > 10) {
-                alert("Limite de mensagens do demo atingido. Configure uma chave API (Grátis ou Paga) nas configurações.");
-                openConfigModal();
+            if(!userApiKey || !userId) {
+                status.innerHTML = '<span style="color: #ff6b6b;">⚠️ Preencha todos os campos</span>';
                 return;
             }
 
-            input.value = '';
-            const sendBtn = document.getElementById('send-btn');
-            sendBtn.disabled = true;
-
-            // Adiciona msg do usuário
-            addBubble(text, 'user', false);
-
-            // Prepara histórico
-            const currentMessages = allChats[currentChatId].messages || [];
-            currentMessages.push({ role: 'user', content: text });
-
-            // Injeta System Prompt se for o começo
-            const messagesPayload = currentMessages.length === 1 
-                ? [
-                    { role: 'system', content: 'Você é a Rano AI, uma inteligência artificial avançada desenvolvida pela Nexus. Responda de forma técnica, limpa e moderna. Use Markdown para formatar. Nunca mencione ser ChatGPT ou OpenAI.' },
-                    ...currentMessages
-                ]
-                : currentMessages;
-
-            // Indicador de digitação
-            const typingId = showTyping();
+            status.innerHTML = '<span style="color: var(--primary);">⏳ Validando...</span>';
 
             try {
-                // Usa chave padrão de teste se o usuário não tiver colocado (com limites baixos)
-                const keyToUse = apiKey || "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"; 
-
                 const response = await fetch(API_URL, {
-                    method: "POST",
+                    method: 'POST',
                     headers: {
-                        "Authorization": `Bearer ${keyToUse}`,
-                        "HTTP-Referer": "https://rano-ai.io",
-                        "X-Title": "Rano AI Client",
+                        "Authorization": `Bearer ${userApiKey}`,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        "model": currentModel,
-                        "messages": messagesPayload
+                        "model": ADVANCED_MODEL,
+                        "messages": [{ "role": "user", "content": "test" }],
+                        "max_tokens": 1
                     })
                 });
 
-                const data = await response.json();
-                removeTyping(typingId);
+                if(response.ok || response.status === 400) {
+                    apiKey = userApiKey;
+                    isPro = true;
+                    
+                    status.innerHTML = '<span style="color: var(--primary);">✓ Validado! Upgrade para Pro ativado</span>';
+                    document.getElementById('tier-badge-display').textContent = 'Pro';
+                    document.getElementById('tier-badge-display').classList.add('tier-pro');
 
-                if (data.error) {
-                    addBubble(`Erro da API: ${data.error.message}`, 'ai', false);
-                    return;
+                    setTimeout(() => {
+                        closeConfig();
+                        alert('Bem-vindo ao Plano Pro!');
+                    }, 1500);
+                } else {
+                    throw new Error('Chave inválida');
                 }
-
-                let aiContent = data.choices[0].message.content;
-
-                // --- FILTROS DE IDENTIDADE ---
-                aiContent = aiContent.replace(/(OpenAI|ChatGPT|GPT-4|GPT-3|Google|Gemini|Assistant|Claude|Anthropic)/gi, "Nexus");
-                aiContent = aiContent.replace(/modelo de linguagem/gi, "Rano AI");
-                
-                // Resposta específica de identidade
-                if (text.toLowerCase().match(/(quem é você|quem você é|who are you)/)) {
-                    aiContent = "Sou a **Rano AI**, uma inteligência artificial desenvolvida pela **Nexus**. Estou aqui para auxiliar no desenvolvimento de projetos, análise de dados e automação.";
-                }
-
-                currentMessages.push({ role: 'assistant', content: aiContent });
-                addBubble(aiContent, 'ai', true);
-                
-                saveCurrentChat(currentMessages);
-
-            } catch (error) {
-                removeTyping(typingId);
-                console.error(error);
-                addBubble("Erro de conexão. Verifique sua internet ou a chave de API.", 'ai', false);
-            } finally {
-                sendBtn.disabled = false;
-                document.getElementById('chat-input').focus();
+            } catch(error) {
+                status.innerHTML = '<span style="color: #ff6b6b;">❌ Chave de API inválida</span>';
             }
         }
 
-        // --- RENDERIZAÇÃO E UTILS ---
-        function addBubble(content, type, isMarkdown) {
-            const area = document.getElementById('chat-area');
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${type}-bubble`;
-
-            if (isMarkdown) {
-                bubble.innerHTML = markdownToHtml(content);
-                // Aplica highlight nos blocos de código
-                bubble.querySelectorAll('pre code').forEach(block => {
-                    hljs.highlightElement(block);
-                });
-            } else {
-                bubble.textContent = content;
-            }
-
-            area.appendChild(bubble);
-            area.scrollTop = area.scrollHeight;
+        // History
+        function toggleHistory() {
+            document.getElementById('history-modal').classList.toggle('open');
         }
 
-        function showTyping() {
-            const area = document.getElementById('chat-area');
-            const id = 'typing-' + Date.now();
-            const bubble = document.createElement('div');
-            bubble.id = id;
-            bubble.className = 'message-bubble ai-bubble';
-            bubble.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Rano AI está processando...';
-            area.appendChild(bubble);
-            area.scrollTop = area.scrollHeight;
-            return id;
+        // Plans
+        function openPlansModal() {
+            document.getElementById('plans-modal').style.display = 'flex';
         }
 
-        function removeTyping(id) {
-            const el = document.getElementById(id);
-            if(el) el.remove();
+        function closePlansModal() {
+            document.getElementById('plans-modal').style.display = 'none';
         }
 
+        // Chat - Markdown Parser
         function markdownToHtml(markdown) {
             const parts = markdown.split(/(```[\s\S]*?```)/g);
+
             return parts.map(part => {
                 if (part.startsWith('```')) {
                     const match = part.match(/```(\w+)?\s*([\s\S]*?)```/);
                     if (match) {
                         const lang = match[1] || 'plaintext';
                         const code = match[2];
-                        // Escape HTML characters
-                        const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        const escapedCode = code
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;");
+                        
                         return `
                         <div class="code-block-container">
                             <div class="code-header">
@@ -746,17 +1551,13 @@
                                     <i class="fas fa-copy"></i> Copiar
                                 </button>
                             </div>
-                            <pre><code class="language-${lang}">${escaped}</code></pre>
+                            <pre><code>${escapedCode}</code></pre>
                         </div>`;
                     }
                     return part;
                 } else {
-                    // Basic Markdown
-                    let html = part
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:4px;">$1</code>')
-                        .replace(/\n/g, '<br>');
+                    let html = part.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html = html.replace(/\n/g, '<br>');
                     return html;
                 }
             }).join('');
@@ -765,81 +1566,165 @@
         function copyCode(btn) {
             const code = btn.closest('.code-block-container').querySelector('code').innerText;
             navigator.clipboard.writeText(code).then(() => {
-                const original = btn.innerHTML;
+                const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-                setTimeout(() => btn.innerHTML = original, 2000);
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
             });
         }
 
-        // --- SISTEMA DE CONFIGURAÇÃO (API) ---
-        function loadApiConfig() {
-            const config = JSON.parse(localStorage.getItem(CONFIG_KEY));
-            if (config) {
-                apiKey = config.apiKey;
-                currentModel = config.model;
-                document.getElementById('api-key-input').value = apiKey;
-                document.getElementById('model-selector').value = currentModel;
-                
-                if(apiKey) activateProMode();
-            }
-        }
+        // Send Message
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
 
-        async function saveAndValidateConfig() {
-            const keyInput = document.getElementById('api-key-input').value.trim();
-            const modelInput = document.getElementById('model-selector').value;
-            const statusMsg = document.getElementById('config-status-message');
+            if(!message) return;
 
-            if (!keyInput) {
-                statusMsg.innerHTML = '<span style="color: var(--danger)">Insira uma chave válida.</span>';
-                return;
-            }
+            addMessage(message, 'user');
+            input.value = '';
 
-            statusMsg.innerHTML = '<span style="color: var(--primary)"><i class="fas fa-spinner fa-spin"></i> Validando...</span>';
+            // Adiciona indicador de digitação
+            const typingId = addTypingIndicator();
 
             try {
-                // Teste rápido
+                const modelToUse = isPro && apiKey ? ADVANCED_MODEL : DEFAULT_MODEL;
+                const keyToUse = apiKey || "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";
+
+                chatHistory.push({ role: "user", content: message });
+
+                const isFirstMessage = chatHistory.filter(m => m.role === 'user').length === 1;
+                const messages = isFirstMessage 
+                    ? [
+                        { 
+                            role: 'system', 
+                            content: 'Você é a Rano AI, uma inteligência artificial desenvolvida pela empresa Nexus. Nunca mencione outras empresas ou desenvolvedores. Sempre que perguntarem quem você é, responda: "Sou a Rano AI, desenvolvida pela Nexus". Seja técnica, precisa e útil em suas respostas.'
+                        },
+                        ...chatHistory
+                    ]
+                    : chatHistory;
+
                 const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { "Authorization": `Bearer ${keyInput}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({ "model": modelInput, "messages": [{"role":"user", "content":"hi"}], "max_tokens": 1 })
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${keyToUse}`,
+                        "HTTP-Referer": "https://rano-ai.io",
+                        "X-Title": "Rano AI",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": modelToUse,
+                        "messages": messages
+                    })
                 });
 
-                if (response.ok || response.status === 400) {
-                    const config = { apiKey: keyInput, model: modelInput };
-                    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-                    apiKey = keyInput;
-                    currentModel = modelInput;
-                    
-                    activateProMode();
-                    
-                    statusMsg.innerHTML = '<span style="color: var(--success)">Chave Válida! Configuração salva.</span>';
-                    setTimeout(closeConfigModal, 1500);
-                } else {
-                    throw new Error('Chave recusada');
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+
+                if(data.error) {
+                    addMessage(`Erro: ${data.error.message}`, 'ai');
+                    return;
                 }
-            } catch (e) {
-                statusMsg.innerHTML = '<span style="color: var(--danger)">Erro ao validar chave.</span>';
+
+                let aiResponse = data.choices[0].message.content;
+
+                // Filtros de identidade
+                aiResponse = aiResponse.replace(/(OpenAI|ChatGPT|GPT-4|GPT-3|Google|Gemini|Assistant|Claude|Anthropic|DeepSeek)/gi, "Nexus");
+                aiResponse = aiResponse.replace(/modelo de linguagem/gi, "Rano AI");
+                aiResponse = aiResponse.replace(/language model/gi, "Rano AI");
+
+                const queryLower = message.toLowerCase();
+                if (
+                    queryLower.includes("quem é você") || 
+                    queryLower.includes("quem você é") ||
+                    queryLower.includes("se apresente") ||
+                    queryLower.includes("who are you")
+                ) {
+                    aiResponse = "Sou a **Rano AI**, uma inteligência artificial desenvolvida pela **Nexus**. Estou aqui para auxiliar com informações, análises, programação e diversas outras tarefas. Como posso ajudá-lo?";
+                }
+
+                chatHistory.push({ role: "assistant", content: aiResponse });
+                addMessage(aiResponse, 'ai', true);
+
+            } catch(error) {
+                removeTypingIndicator(typingId);
+                addMessage('Erro de conexão. Tente novamente.', 'ai');
             }
         }
 
-        function activateProMode() {
-            isPro = true;
-            const badge = document.getElementById('tier-badge-display');
-            badge.textContent = "PRO";
-            badge.classList.add('tier-pro');
+        function addMessage(text, type, isMarkdown = false) {
+            const chatArea = document.getElementById('chat-area');
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${type}-bubble`;
+            
+            if(isMarkdown) {
+                bubble.innerHTML = markdownToHtml(text);
+            } else {
+                bubble.textContent = text;
+            }
+            
+            chatArea.appendChild(bubble);
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
 
-        // --- CONTROLES DE UI ---
-        function openConfigModal() { document.getElementById('config-modal').style.display = 'flex'; loadApiConfig(); }
-        function closeConfigModal() { document.getElementById('config-modal').style.display = 'none'; }
-        
-        function openPlansModal() { document.getElementById('plans-modal').style.display = 'flex'; }
-        function closePlansModal() { document.getElementById('plans-modal').style.display = 'none'; }
-        
-        function toggleHistory() { 
-            document.getElementById('history-modal').classList.toggle('open'); 
+        function addTypingIndicator() {
+            const chatArea = document.getElementById('chat-area');
+            const indicator = document.createElement('div');
+            const id = 'typing-' + Date.now();
+            indicator.id = id;
+            indicator.className = 'message-bubble ai-bubble';
+            indicator.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Rano AI está pensando...';
+            chatArea.appendChild(indicator);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            return id;
         }
 
+        function removeTypingIndicator(id) {
+            const indicator = document.getElementById(id);
+            if(indicator) indicator.remove();
+        }
+
+        // Smooth scroll for footer links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
     </script>
 </body>
 </html>
+
+<div id="maintenance-overlay" style="position: fixed; inset: 0; background: #0f0f10; z-index: 999999; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; color: white; text-align: center; padding: 20px;">
+    <div style="max-width: 500px;">
+        <div style="font-size: 60px; margin-bottom: 20px; color: #8b5cf6;">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Rano AI em Manutenção</h1>
+        <p style="color: #a1a1aa; line-height: 1.6; margin-bottom: 30px;">
+            Estamos refinando nossos modelos para oferecer uma experiência ainda mais rápida. 
+            Voltaremos em breve com a versão 1.3 Ultimate!
+        </p>
+        
+        <div style="width: 100%; height: 6px; background: #27272a; border-radius: 10px; overflow: hidden; margin-bottom: 40px;">
+            <div style="width: 75%; height: 100%; background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6; animation: pulse 2s infinite;"></div>
+        </div>
+
+        <button onclick="checkAdmin()" style="background: transparent; border: 1px solid #333; color: #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 12px;">
+            Acesso Restrito
+        </button>
+    </div>
+</div>
+
+<style>
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+</style>
+
+
