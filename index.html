@@ -3,324 +3,843 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rano | Breno Belarmino</title>
+    <title>Rano AI v1.2 | Powered by Nexus</title>
     
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* ===== ESTILO VISUAL (Baseado no Arquivo Cinza/Violeta) ===== */
         :root {
-            --bg-grad-start: #080808;
-            --bg-grad-end: #1a1a1a;
-            --accent: #d1d5db; 
-            --premium-color: #00f2ff;
-            --user-msg-bg: #e5e7eb;
-            --ai-msg-bg: rgba(255, 255, 255, 0.08);
+            --bg: #1a1a1a;
+            --bg-light: #2a2a2a;
+            --primary: #8b7adb;
+            --primary-dark: #6b5ab5;
+            --text: #e0e0e0;
+            --text-muted: #999;
+            --border: rgba(139, 122, 219, 0.2);
+            --glass: rgba(255, 255, 255, 0.03);
+            --danger: #ff6b6b;
+            --success: #51cf66;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-
-        body {
-            height: 100vh;
-            background: linear-gradient(180deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
-            color: #fff;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            background: var(--bg); 
+            color: var(--text); 
+            overflow-x: hidden;
         }
 
-        /* --- TELA DE CARREGAMENTO (SPLASH) --- */
-        #splash-screen {
-            position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s ease-out;
-        }
-        .splash-title { font-size: 4rem; font-weight: 800; letter-spacing: -2px; color: #fff; animation: pulse 2s infinite; }
-        .splash-sub { font-size: 0.8rem; letter-spacing: 4px; color: #666; margin-top: 10px; text-transform: uppercase; }
+        /* ===== LANDING PAGE ===== */
+        #landing-page { display: block; }
+        #landing-page.hidden { display: none; }
 
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-
-        /* --- CABEÇALHO --- */
-        header {
-            padding: 20px 30px;
+        .landing-header {
             display: flex; justify-content: space-between; align-items: center;
-            z-index: 10;
+            padding: 20px 8%; border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 0; background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px); z-index: 100;
         }
+
+        .logo-version { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .logo-version span { font-size: 12px; color: var(--text-muted); margin-left: 8px; }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .header-actions { display: flex; gap: 15px; }
+        .btn-login { padding: 10px 20px; background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 500; }
+        .btn-login:hover { background: var(--glass); border-color: var(--primary); }
+        .btn-start { padding: 10px 24px; background: var(--primary); border: none; color: #fff; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: 600; }
+        .btn-start:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        .hero-section { text-align: center; padding: 100px 8% 60px; }
+        .hero-section h1 { font-size: 56px; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        .hero-section .version-tag { display: inline-block; padding: 6px 16px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--primary); margin-bottom: 30px; }
+        .hero-subtitle { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 50px; }
+
+        .prompt-input-container { max-width: 700px; margin: 0 auto; position: relative; }
+        .prompt-input { width: 100%; padding: 20px 24px; background: var(--bg-light); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; outline: none; transition: 0.3s; }
+        .prompt-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 122, 219, 0.1); }
+        .prompt-suggestions { position: absolute; left: 24px; top: 20px; pointer-events: none; color: var(--text-muted); font-size: 16px; transition: 0.3s; }
+        .prompt-input:focus + .prompt-suggestions, .prompt-input:not(:placeholder-shown) + .prompt-suggestions { opacity: 0; }
+
+        .prompt-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; margin: 50px auto 0; }
+        .prompt-card { background: var(--bg-light); border: 2px solid var(--border); border-radius: 12px; padding: 24px; cursor: pointer; transition: 0.3s; text-align: left; }
+        .prompt-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 122, 219, 0.2); }
+        .prompt-card i { font-size: 24px; color: var(--primary); margin-bottom: 12px; display: block; }
+        .prompt-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .prompt-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+        .feature-section { padding: 100px 8%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .feature-content h2 { font-size: 40px; font-weight: 700; margin-bottom: 20px; }
+        .feature-content p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; }
+        .feature-list { display: flex; flex-direction: column; gap: 12px; }
+        .feature-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text); }
+        .feature-item i { color: var(--primary); }
+
+        .code-preview { background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; overflow: hidden; position: relative; }
+        .code-preview::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), #6b5ab5); }
+        .code-line { display: block; animation: fadeInCode 0.5s ease forwards; opacity: 0; }
+        .code-line:nth-child(1) { animation-delay: 0.1s; } .code-line:nth-child(2) { animation-delay: 0.2s; } .code-line:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes fadeInCode { to { opacity: 1; } }
+        .keyword { color: #c586c0; } .function { color: #dcdcaa; } .string { color: #ce9178; } .comment { color: #6a9955; }
+
+        #pricing, #faq { padding: 100px 8%; }
+        .pricing-header, .faq-header { text-align: center; margin-bottom: 60px; }
+        .pricing-header h2, .faq-header h2 { font-size: 40px; font-weight: 700; margin-bottom: 16px; }
+        .pricing-header p { font-size: 16px; color: var(--text-muted); }
         
-        .header-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 12px; transition: 0.3s; }
-        .header-btn:hover { background: rgba(255,255,255,0.2); }
+        .pricing-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 900px; margin: 0 auto; }
+        .pricing-card { background: var(--bg-light); border: 2px solid var(--border); border-radius: 16px; padding: 40px; transition: 0.3s; }
+        .pricing-card:hover { border-color: var(--primary); transform: translateY(-8px); }
+        .pricing-card.featured { border-color: var(--primary); position: relative; }
+        .pricing-card.featured::before { content: 'POPULAR'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .plan-name { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+        .plan-price { font-size: 48px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+        .plan-price span { font-size: 16px; color: var(--text-muted); font-weight: 500; }
+        .plan-features { list-style: none; margin: 30px 0; }
+        .plan-features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 12px; }
+        .plan-features li i { color: var(--primary); font-size: 14px; }
+        .btn-plan { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-plan:hover { background: var(--primary-dark); }
 
-        .app-logo { font-size: 24px; font-weight: 700; letter-spacing: 1px; position: absolute; left: 50%; transform: translateX(-50%); }
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg-light); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: 0.3s; }
+        .faq-item:hover { border-color: var(--primary); }
+        .faq-question { font-weight: 600; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { margin-top: 16px; color: var(--text-muted); line-height: 1.7; display: none; }
+        .faq-item.open .faq-answer { display: block; }
+        .faq-item.open .faq-question i { transform: rotate(180deg); }
 
-        /* --- ÁREA DO CHAT --- */
-        #chat-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 15%; 
-            display: flex; flex-direction: column; gap: 20px;
-            scroll-behavior: smooth;
-        }
+        .footer { padding: 60px 8%; border-top: 1px solid rgba(255,255,255,0.05); }
+        .footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+        .footer-section h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
+        .footer-section a { display: block; color: var(--text-muted); text-decoration: none; font-size: 14px; margin-bottom: 12px; transition: 0.3s; }
+        .footer-section a:hover { color: var(--primary); }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 14px; color: var(--text-muted); }
 
-        .message {
-            max-width: 85%;
-            padding: 15px 20px;
-            border-radius: 18px;
-            font-size: 16px;
-            line-height: 1.5;
-            animation: slideUp 0.3s ease-out;
-            word-wrap: break-word;
-        }
+        /* ===== MODAL DE AUTENTICAÇÃO ===== */
+        #auth-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .auth-container { display: flex; width: 90%; max-width: 1000px; background: var(--bg-light); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .auth-image { flex: 1; background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920') center/cover; }
+        .auth-form-container { flex: 0.8; padding: 60px; }
+        .auth-form-container h2 { font-size: 32px; font-weight: 700; margin-bottom: 40px; color: var(--primary); }
+        .auth-form-container input { width: 100%; padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); margin-bottom: 20px; outline: none; transition: 0.3s; }
+        .auth-form-container input:focus { border-color: var(--primary); }
+        .auth-submit { width: 100%; padding: 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .auth-submit:hover { background: var(--primary-dark); }
+
+        /* ===== DASHBOARD (ÁREA DO CHAT) ===== */
+        #dashboard { display: none; flex-direction: column; height: 100vh; }
+        #dashboard.active { display: flex; }
+
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; border-bottom: 1px solid rgba(255,255,255,0.05); background: var(--bg); }
+        .user-info-dash { display: flex; align-items: center; gap: 12px; }
+        .user-avatar { width: 40px; height: 40px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; text-transform: uppercase;}
+        .user-name-dash { font-weight: 600; font-size: 14px; }
+        .dash-actions { display: flex; align-items: center; gap: 20px; }
+        .tier-badge-dash { padding: 6px 16px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .tier-pro { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .dash-btn { background: none; border: none; color: var(--text); cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .dash-btn:hover { color: var(--primary); }
+
+        /* Área de Mensagens */
+        #chat-area { flex: 1; overflow-y: auto; padding: 40px 20%; display: flex; flex-direction: column; gap: 24px; scroll-behavior: smooth; }
         
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--user-msg-bg);
-            color: #000;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background-color: var(--ai-msg-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #ececec;
-            border-bottom-left-radius: 4px;
-        }
-
-        .ai-message strong { color: var(--premium-color); font-weight: 600; }
-        pre { background: #111; padding: 10px; border-radius: 8px; overflow-x: auto; margin: 10px 0; }
-        code { font-family: monospace; color: #ff79c6; }
-
-        /* --- INPUT --- */
-        .input-area {
-            padding: 20px 15% 40px 15%;
-            background: linear-gradient(to top, #000, transparent);
-            display: flex; justify-content: center;
-        }
-
-        .input-box {
-            width: 100%; max-width: 800px;
-            background: #d1d5db; 
-            border-radius: 30px;
-            padding: 5px 10px 5px 25px;
-            display: flex; align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-        }
+        .message-bubble { max-width: 80%; padding: 20px; border-radius: 16px; line-height: 1.6; animation: fadeIn 0.3s ease; position: relative; font-size: 15px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .input-box:focus-within { transform: scale(1.01); background: #fff; }
+        .user-bubble { align-self: flex-end; background: var(--primary); color: #fff; border-bottom-right-radius: 4px; font-weight: 500; }
+        .ai-bubble { align-self: flex-start; background: var(--bg-light); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
 
-        #user-input {
-            flex: 1; background: transparent; border: none; outline: none;
-            font-size: 16px; color: #333; padding: 10px 0;
-        }
+        /* Blocos de Código */
+        .code-block-container { background-color: #1e1e1e; border-radius: 10px; margin: 15px 0; overflow: hidden; font-family: 'Courier New', monospace; border: 1px solid rgba(255,255,255,0.1); }
+        .code-header { display: flex; justify-content: space-between; align-items: center; background-color: #2d2d2d; padding: 8px 16px; color: #abb2bf; font-size: 12px; border-bottom: 1px solid #3e4451; }
+        .copy-code-btn { background: rgba(139, 122, 219, 0.2); border: none; color: var(--primary); cursor: pointer; font-size: 12px; padding: 5px 12px; border-radius: 4px; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .copy-code-btn:hover { background: rgba(139, 122, 219, 0.4); }
+        .ai-bubble pre { margin: 0; padding: 16px; overflow-x: auto; color: #abb2bf; background: #1e1e1e; }
+        .ai-bubble code { font-family: Consolas, Monaco, monospace; font-size: 13px; }
+        .ai-bubble strong { font-weight: 700; color: var(--primary); }
 
-        .send-btn {
-            background: none; border: none; cursor: pointer; padding: 10px;
-            font-size: 22px; color: #333; transition: 0.2s;
-        }
-        .send-btn:hover { transform: scale(1.1); color: #000; }
+        /* Input */
+        .chat-input-container { padding: 30px 20%; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); }
+        .chat-input-box { display: flex; gap: 12px; background: var(--bg-light); padding: 12px 20px; border-radius: 24px; border: 2px solid var(--border); transition: 0.3s; }
+        .chat-input-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(139, 122, 219, 0.1); }
+        .chat-input { flex: 1; background: transparent; border: none; color: var(--text); outline: none; font-size: 15px; }
+        .send-button { background: var(--primary); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .send-button:hover { background: var(--primary-dark); transform: scale(1.1); }
+        .send-button:disabled { background: #444; cursor: not-allowed; transform: none; }
 
-        /* --- BLOQUEIO PREMIUM --- */
-        #premium-lock {
-            display: none; 
-            position: fixed; inset: 0; background: rgba(0,0,0,0.96);
-            z-index: 20000;
-            flex-direction: column; align-items: center; justify-content: center;
-            text-align: center;
-        }
-        .spider-icon { font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px red); }
-        .upgrade-btn {
-            margin-top: 30px; padding: 15px 40px; border-radius: 30px;
-            background: #fff; color: #000; font-weight: bold; border: none; cursor: pointer;
-        }
+        /* Modais (Config, Histórico, Planos) */
+        #config-modal, #plans-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .config-content, .plans-content { background: var(--bg-light); padding: 40px; border-radius: 16px; max-width: 500px; width: 90%; border: 1px solid var(--border); }
+        .config-content h2 { font-size: 24px; font-weight: 700; margin-bottom: 30px; color: var(--primary); }
+        .config-content label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-muted); }
+        .config-content input, .config-content select { width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); margin-bottom: 20px; outline: none; transition: 0.3s; }
+        .config-content input:focus { border-color: var(--primary); }
+        .config-buttons { display: flex; gap: 12px; margin-top: 30px; }
+        .config-buttons button { flex: 1; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-validate { background: var(--primary); color: #fff; border: none; }
+        .btn-validate:hover { background: var(--primary-dark); }
+        .btn-cancel-config { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-cancel-config:hover { background: rgba(255,255,255,0.05); }
+
+        #history-modal { position: fixed; top: 0; right: 0; width: 400px; height: 100vh; background: var(--bg-light); border-left: 1px solid var(--border); transform: translateX(100%); transition: 0.3s; z-index: 999; overflow-y: auto; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+        #history-modal.open { transform: translateX(0); }
+        .history-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .history-list { padding: 16px; }
+        .history-item-dash { padding: 16px; background: var(--bg); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .history-item-dash:hover { border-color: var(--primary); background: rgba(139, 122, 219, 0.05); }
+        .history-item-dash.active { border-color: var(--primary); background: rgba(139, 122, 219, 0.1); }
+        .history-item-dash h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+        .history-item-dash p { font-size: 11px; color: var(--text-muted); }
+        .btn-new-chat { width: 100%; padding: 15px; margin-bottom: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-new-chat:hover { background: var(--primary-dark); }
 
         @media (max-width: 768px) {
-            #chat-container, .input-area { padding-left: 5%; padding-right: 5%; }
-            .splash-title { font-size: 3rem; }
+            .nav-links { display: none; }
+            .feature-section, .pricing-cards, .footer-content { grid-template-columns: 1fr; }
+            #chat-area, .chat-input-container { padding-left: 5%; padding-right: 5%; }
+            .message-bubble { max-width: 90%; }
+            #history-modal { width: 85%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <div class="splash-title">RANO</div>
-        <div class="splash-sub">Nexus AI System</div>
-        <div style="margin-top:5px; font-size: 9px; opacity: 0.4;">Created by Breno Belarmino</div>
+    <div id="landing-page">
+        <header class="landing-header">
+            <div class="logo-version">
+                Rano <span>v1.2</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#recursos">Recursos</a>
+                <a href="#pricing">Planos</a>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-login" onclick="openAuth()">Login</button>
+                <button class="btn-start" onclick="openAuth()">Começar Agora</button>
+            </div>
+        </header>
+
+        <section class="hero-section">
+            <div class="version-tag">✨ Novidades na versão 1.2</div>
+            <h1>Dê vida às suas ideias com <span style="color: var(--primary);">Rano</span></h1>
+            <p class="hero-subtitle">
+                Crie aplicativos, dashboards e APIs com inteligência artificial. Deploy em minutos, sem código e sem compilação.
+            </p>
+
+            <div class="prompt-input-container">
+                <input type="text" class="prompt-input" id="landing-input" placeholder=" " onkeypress="if(event.key==='Enter') useLandingPrompt(this.value)">
+                <div class="prompt-suggestions" id="suggestion-text">Crie uma dashboard financeira completa...</div>
+            </div>
+
+            <div class="prompt-cards">
+                <div class="prompt-card" onclick="useLandingPrompt('Desenvolva um design de interface Dark para um app de crypto')">
+                    <i class="fas fa-palette"></i>
+                    <h3>UI/UX Design</h3>
+                    <p>Interfaces futuristas de alto nível</p>
+                </div>
+                <div class="prompt-card" onclick="useLandingPrompt('Crie um script em Python para minerar dados da web')">
+                    <i class="fas fa-code"></i>
+                    <h3>Deep Data</h3>
+                    <p>Automação e análise de dados</p>
+                </div>
+                <div class="prompt-card" onclick="useLandingPrompt('Explique como funciona a inteligência artificial moderna')">
+                    <i class="fas fa-brain"></i>
+                    <h3>AI Insights</h3>
+                    <p>Conhecimento técnico sobre IA</p>
+                </div>
+                <div class="prompt-card" onclick="useLandingPrompt('Construa uma API REST completa com autenticação')">
+                    <i class="fas fa-server"></i>
+                    <h3>API Builder</h3>
+                    <p>APIs REST completas</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-section" id="recursos">
+            <div class="feature-content">
+                <h2>Crie seu app do seu jeito</h2>
+                <p>A Rano AI transforma suas ideias em aplicações reais com lógica avançada.</p>
+                <div class="feature-list">
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Criação de APIs REST</span></div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Dashboards interativos</span></div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> <span>Histórico persistente</span></div>
+                </div>
+            </div>
+            <div class="code-preview">
+                <span class="code-line"><span class="keyword">const</span> <span class="function">createAPI</span> = () => {</span>
+                <span class="code-line">  <span class="keyword">return</span> {</span>
+                <span class="code-line">    status: <span class="string">'active'</span>,</span>
+                <span class="code-line">    poweredBy: <span class="string">'Rano v1.2'</span></span>
+                <span class="code-line">  }</span>
+                <span class="code-line">}</span>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-bottom">
+                © 2026 Rano AI - Powered by Nexus | Todos os direitos reservados
+            </div>
+        </footer>
     </div>
 
-    <header>
-        <button class="header-btn" id="status-badge">Versão Free</button>
-        <div class="app-logo" id="logo-text">Rano</div>
-        <button class="header-btn" onclick="limparTudo()"><i class="fa-solid fa-trash"></i> Reset</button>
-    </header>
-
-    <div id="chat-container"></div>
-
-    <div class="input-area">
-        <div class="input-box">
-            <input type="text" id="user-input" placeholder="Envie uma mensagem..." autocomplete="off">
-            <button class="send-btn" onclick="enviarMensagem()"><i class="fa-solid fa-circle-arrow-up"></i></button>
+    <div id="auth-modal">
+        <div class="auth-container">
+            <div class="auth-image"></div>
+            <div class="auth-form-container">
+                <h2>Bem-vindo à Rano</h2>
+                <input type="text" id="auth-name" placeholder="Nome de Usuário">
+                <input type="email" id="auth-email" placeholder="Email">
+                <button class="auth-submit" onclick="finishAuth()">
+                    <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="premium-lock" onclick="tentarDesbloqueio()">
-        <div class="spider-icon">🕷️</div>
-        <h1 style="color: #fff; text-transform: uppercase;">Limite Atingido</h1>
-        <p style="color: #777; max-width: 300px; margin-top: 10px;">Você atingiu o limite do plano gratuito.</p>
-        <button class="upgrade-btn">UPGRADE PRO</button>
+    <div id="dashboard">
+        <header class="dash-header">
+            <div class="user-info-dash">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <div class="user-name-dash" id="user-name-display">Usuário</div>
+            </div>
+
+            <div class="dash-actions">
+                <div class="tier-badge-dash" id="tier-badge-display">Free</div>
+                <button class="dash-btn" onclick="openPlansModal()" title="Planos">
+                    <i class="fas fa-crown"></i>
+                </button>
+                <button class="dash-btn" onclick="toggleHistory()" title="Histórico">
+                    <i class="fas fa-history"></i>
+                </button>
+                <button class="dash-btn" onclick="openConfigModal()" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="dash-btn" onclick="logout()" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <div id="chat-area">
+            <div style="text-align:center; margin-top: 100px; color: var(--text-muted); opacity: 0.5;">
+                <i class="fas fa-robot" style="font-size: 48px; margin-bottom: 20px;"></i>
+                <p>Rano AI v1.2 pronta para iniciar.</p>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input-box">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') executeNexus()">
+                <button class="send-button" id="send-btn" onclick="executeNexus()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
-<script>
-    const SUA_CHAVE_API = "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";
-    
-    // MUDANÇA AQUI: Modelo exato que você pediu
-    const MODELO_ESCOLHIDO = "openai/gpt-oss-20b:free"; 
+    <div id="config-modal">
+        <div class="config-content">
+            <h2><i class="fas fa-cog"></i> Configurações</h2>
+            
+            <label>Chave API OpenRouter</label>
+            <input type="password" id="api-key-input" placeholder="sk-or-v1-xxxxxxxxxxxxxxxx">
+            
+            <label>Modelo de IA</label>
+            <select id="model-selector">
+                <option value="openai/gpt-oss-120b:free">Rano Standard</option>
+                <option value="google/gemini-2.0-flash-lite-preview-02-05:free">Rano Flash</option>
+                <option value="z-ai/glm-4.5-air:free">Rano Advanced MAX)</option>
+            </select>
 
-    // Backup caso esse modelo não exista (Fallback automático para Llama 3)
-    const MODELO_BACKUP = "meta-llama/llama-3-8b-instruct:free";
+            <div id="config-status-message" style="margin-top: 10px; font-size: 13px; min-height: 20px;"></div>
 
-    let contadorMensagens = parseInt(localStorage.getItem('rano_msg_count')) || 0;
-    let isPremium = localStorage.getItem('rano_premium') === 'true';
-    let cliquesDesbloqueio = 0;
+            <div class="config-buttons">
+                <button class="btn-validate" onclick="saveAndValidateConfig()">Salvar e Validar</button>
+                <button class="btn-cancel-config" onclick="closeConfigModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
-    window.onload = function() {
-        setTimeout(() => {
-            const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            setTimeout(() => splash.remove(), 800);
-        }, 2000);
+    <div id="history-modal">
+        <div class="history-header">
+            <h3>Histórico</h3>
+            <button class="dash-btn" onclick="toggleHistory()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="history-list">
+            <button class="btn-new-chat" onclick="startNewChat()">
+                <i class="fas fa-plus"></i> Novo Chat
+            </button>
+            <div id="history-list-content"></div>
+        </div>
+    </div>
 
-        carregarHistorico();
-        verificarPremium();
+    <div id="plans-modal">
+        <div class="plans-content">
+            <h2 style="margin-bottom: 20px;">Escolha seu Plano</h2>
+            <div style="background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--primary);">
+                <h3 style="color: var(--primary); margin-bottom: 10px;">Plano Pro (API Própria)</h3>
+                <p style="font-size: 14px; color: var(--text-muted);">Configure sua própria chave API nas configurações para uso ilimitado e modelos avançados.</p>
+                <button class="btn-plan" style="margin-top: 15px;" onclick="closePlansModal(); openConfigModal();">Configurar Agora</button>
+            </div>
+            <button class="btn-cancel-config" style="width: 100%; padding: 14px;" onclick="closePlansModal()">Fechar</button>
+        </div>
+    </div>
 
-        document.getElementById('user-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') enviarMensagem();
-        });
-    };
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-    async function enviarMensagem() {
-        const input = document.getElementById('user-input');
-        const textoUsuario = input.value.trim();
-        
-        if (!textoUsuario) return;
+    <script>
+        // --- CONSTANTES E SETUP ---
+        const API_URL = "https://openrouter.ai/api/v1/chat/completions";
+        const CHAT_KEY = 'rano_v12_history';
+        const USER_KEY = 'rano_v12_user';
+        const CONFIG_KEY = 'rano_v12_config';
 
-        if (!isPremium && contadorMensagens >= 5) {
-            document.getElementById('premium-lock').style.display = 'flex';
-            return;
+        // Estado Global
+        let allChats = {};
+        let currentChatId = null;
+        let apiKey = null;
+        let currentModel = "openai/gpt-oss-120b:free";
+        let pendingPrompt = null;
+        let isPro = false; // "Pro" agora significa que tem chave de API válida
+
+        // --- INICIALIZAÇÃO ---
+        window.onload = () => {
+            checkAuth();
+            
+            // Animação das sugestões na Landing
+            const suggestions = [
+                "Crie uma dashboard financeira completa...",
+                "Desenvolva uma API REST de usuários...",
+                "Construa um app de tarefas com React...",
+                "Gere um sistema de autenticação JWT..."
+            ];
+            let currentSuggestion = 0;
+            setInterval(() => {
+                const el = document.getElementById('suggestion-text');
+                if(el) {
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        currentSuggestion = (currentSuggestion + 1) % suggestions.length;
+                        el.textContent = suggestions[currentSuggestion];
+                        el.style.opacity = '1';
+                    }, 300);
+                }
+            }, 3000);
+        };
+
+        // --- AUTENTICAÇÃO E NAVEGAÇÃO ---
+        function checkAuth() {
+            const userData = localStorage.getItem(USER_KEY);
+            if (userData) {
+                const user = JSON.parse(userData);
+                loadDashboard(user);
+            } else {
+                document.getElementById('landing-page').classList.remove('hidden');
+                document.getElementById('dashboard').classList.remove('active');
+            }
         }
 
-        adicionarBolha('user', textoUsuario);
-        input.value = ''; 
-        
-        const bolhaIA = adicionarBolha('ai', '<i class="fa-solid fa-circle-notch fa-spin"></i> Processando...');
+        function openAuth() {
+            document.getElementById('auth-modal').style.display = 'flex';
+        }
 
-        try {
-            // Tenta o modelo principal
-            let response = await fazerRequisicao(MODELO_ESCOLHIDO, textoUsuario);
-            let data = await response.json();
+        function finishAuth() {
+            const name = document.getElementById('auth-name').value.trim();
+            const email = document.getElementById('auth-email').value.trim();
 
-            // Se der erro de modelo não encontrado, tenta o backup automaticamente
-            if (data.error) {
-                console.warn("Modelo principal falhou, tentando backup...", data.error);
-                response = await fazerRequisicao(MODELO_BACKUP, textoUsuario);
-                data = await response.json();
-            }
-
-            if (data.error) {
-                bolhaIA.innerHTML = `<span style="color:#ff5555">Erro: ${data.error.message}</span>`;
+            if (!name) {
+                alert('Por favor, insira seu nome.');
                 return;
             }
 
-            let respostaTexto = data.choices[0].message.content;
+            const user = { name, email, joined: Date.now() };
+            localStorage.setItem(USER_KEY, JSON.stringify(user));
+            
+            document.getElementById('auth-modal').style.display = 'none';
+            loadDashboard(user);
 
-            if (textoUsuario.toLowerCase().includes("quem é breno") || textoUsuario.toLowerCase().includes("quem te criou")) {
-                respostaTexto = "Fui criada e desenvolvida por **Breno Belarmino**, o arquiteto do sistema Rano.";
+            // Processa prompt pendente da landing page
+            if(pendingPrompt) {
+                setTimeout(() => {
+                    document.getElementById('chat-input').value = pendingPrompt;
+                    executeNexus();
+                    pendingPrompt = null;
+                }, 1000);
             }
-
-            bolhaIA.innerHTML = marked.parse(respostaTexto);
-
-            if (!isPremium) {
-                contadorMensagens++;
-                localStorage.setItem('rano_msg_count', contadorMensagens);
-            }
-
-            salvarHistorico();
-
-        } catch (erro) {
-            console.error(erro);
-            bolhaIA.innerHTML = "⚠️ Erro de conexão. Verifique sua internet.";
         }
-    }
 
-    // Função auxiliar para evitar repetição de código
-    async function fazerRequisicao(modelo, texto) {
-        return fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${SUA_CHAVE_API}`,
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://rano.app",
-                "X-Title": "Rano AI"
-            },
-            body: JSON.stringify({
-                "model": modelo,
-                "messages": [
-                    { "role": "system", "content": "Você é Rano. Criador: Breno Belarmino. Responda de forma concisa e útil." },
-                    { "role": "user", "content": texto }
+        function loadDashboard(user) {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('active');
+            
+            document.getElementById('user-name-display').textContent = user.name;
+            document.getElementById('user-avatar').textContent = user.name.charAt(0);
+
+            // Carrega Configs e Chats
+            loadApiConfig();
+            loadAllChats();
+        }
+
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem(USER_KEY);
+                location.reload();
+            }
+        }
+
+        function useLandingPrompt(text) {
+            if(!text) text = document.getElementById('landing-input').value;
+            pendingPrompt = text;
+            const userData = localStorage.getItem(USER_KEY);
+            if(userData) {
+                loadDashboard(JSON.parse(userData));
+                document.getElementById('chat-input').value = text;
+                executeNexus();
+            } else {
+                openAuth();
+            }
+        }
+
+        // --- SISTEMA DE CHAT E HISTÓRICO (Lógica "Matrix" adaptada) ---
+        function loadAllChats() {
+            const stored = localStorage.getItem(CHAT_KEY);
+            allChats = stored ? JSON.parse(stored) : {};
+            
+            // Renderiza histórico
+            renderHistoryList();
+
+            // Abre o último chat ou cria novo
+            const sortedIds = Object.keys(allChats).sort((a, b) => b - a);
+            if (sortedIds.length > 0) {
+                loadChat(sortedIds[0]);
+            } else {
+                startNewChat();
+            }
+        }
+
+        function saveCurrentChat(messages) {
+            if (!currentChatId) return;
+
+            // Define título baseado na primeira mensagem do usuário
+            const firstUserMsg = messages.find(m => m.role === 'user');
+            const title = firstUserMsg ? firstUserMsg.content.substring(0, 30) + '...' : 'Novo Chat';
+
+            allChats[currentChatId] = {
+                id: currentChatId,
+                title: title,
+                messages: messages,
+                timestamp: Date.now()
+            };
+
+            localStorage.setItem(CHAT_KEY, JSON.stringify(allChats));
+            renderHistoryList();
+        }
+
+        function renderHistoryList() {
+            const container = document.getElementById('history-list-content');
+            container.innerHTML = '';
+            
+            const sortedIds = Object.keys(allChats).sort((a, b) => b - a);
+
+            sortedIds.forEach(id => {
+                const chat = allChats[id];
+                const item = document.createElement('div');
+                item.className = `history-item-dash ${id === currentChatId ? 'active' : ''}`;
+                
+                // Formata data
+                const date = new Date(parseInt(id)).toLocaleDateString();
+
+                item.innerHTML = `
+                    <h4>${chat.title}</h4>
+                    <p>${date}</p>
+                `;
+                item.onclick = () => {
+                    loadChat(id);
+                    // Fecha modal no mobile
+                    if(window.innerWidth < 768) toggleHistory();
+                };
+                container.appendChild(item);
+            });
+        }
+
+        function startNewChat() {
+            currentChatId = Date.now().toString();
+            allChats[currentChatId] = {
+                id: currentChatId,
+                title: 'Novo Chat',
+                messages: [],
+                timestamp: Date.now()
+            };
+            document.getElementById('chat-area').innerHTML = `
+                <div style="text-align:center; margin-top: 100px; color: var(--text-muted); opacity: 0.5;">
+                    <i class="fas fa-bolt" style="font-size: 48px; margin-bottom: 20px;"></i>
+                    <p>Nova sessão iniciada.</p>
+                </div>
+            `;
+            if(window.innerWidth < 768) toggleHistory(); // Fecha modal
+            renderHistoryList();
+        }
+
+        function loadChat(id) {
+            currentChatId = id;
+            const chat = allChats[id];
+            const chatArea = document.getElementById('chat-area');
+            chatArea.innerHTML = '';
+
+            chat.messages.forEach(msg => {
+                if (msg.role !== 'system') {
+                    addBubble(msg.content, msg.role === 'user' ? 'user' : 'ai', msg.role === 'assistant');
+                }
+            });
+            renderHistoryList();
+        }
+
+        // --- EXECUÇÃO DA IA (CORE) ---
+        async function executeNexus() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            
+            if (!text) return;
+
+            // Se não tiver chave configurada (simulação de plano free limitado ou erro)
+            if (!apiKey && Object.keys(allChats[currentChatId]?.messages || []).length > 10) {
+                alert("Limite de mensagens do demo atingido. Configure uma chave API (Grátis ou Paga) nas configurações.");
+                openConfigModal();
+                return;
+            }
+
+            input.value = '';
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+
+            // Adiciona msg do usuário
+            addBubble(text, 'user', false);
+
+            // Prepara histórico
+            const currentMessages = allChats[currentChatId].messages || [];
+            currentMessages.push({ role: 'user', content: text });
+
+            // Injeta System Prompt se for o começo
+            const messagesPayload = currentMessages.length === 1 
+                ? [
+                    { role: 'system', content: 'Você é a Rano AI, uma inteligência artificial avançada desenvolvida pela Nexus. Responda de forma técnica, limpa e moderna. Use Markdown para formatar. Nunca mencione ser ChatGPT ou OpenAI.' },
+                    ...currentMessages
                 ]
-            })
-        });
-    }
+                : currentMessages;
 
-    function adicionarBolha(tipo, conteudo) {
-        const container = document.getElementById('chat-container');
-        const div = document.createElement('div');
-        div.classList.add('message');
-        div.classList.add(tipo === 'user' ? 'user-message' : 'ai-message');
-        div.innerHTML = conteudo;
-        container.appendChild(div);
-        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
-        return div;
-    }
+            // Indicador de digitação
+            const typingId = showTyping();
 
-    function tentarDesbloqueio() {
-        cliquesDesbloqueio++;
-        if (cliquesDesbloqueio >= 5) {
-            isPremium = true;
-            localStorage.setItem('rano_premium', 'true');
-            document.getElementById('premium-lock').style.display = 'none';
-            verificarPremium();
-            alert("ACESSO ADMIN CONFIRMADO: BRENO BELARMINO.");
+            try {
+                // Usa chave padrão de teste se o usuário não tiver colocado (com limites baixos)
+                const keyToUse = apiKey || "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"; 
+
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${keyToUse}`,
+                        "HTTP-Referer": "https://rano-ai.io",
+                        "X-Title": "Rano AI Client",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": currentModel,
+                        "messages": messagesPayload
+                    })
+                });
+
+                const data = await response.json();
+                removeTyping(typingId);
+
+                if (data.error) {
+                    addBubble(`Erro da API: ${data.error.message}`, 'ai', false);
+                    return;
+                }
+
+                let aiContent = data.choices[0].message.content;
+
+                // --- FILTROS DE IDENTIDADE ---
+                aiContent = aiContent.replace(/(OpenAI|ChatGPT|GPT-4|GPT-3|Google|Gemini|Assistant|Claude|Anthropic)/gi, "Nexus");
+                aiContent = aiContent.replace(/modelo de linguagem/gi, "Rano AI");
+                
+                // Resposta específica de identidade
+                if (text.toLowerCase().match(/(quem é você|quem você é|who are you)/)) {
+                    aiContent = "Sou a **Rano AI**, uma inteligência artificial desenvolvida pela **Nexus**. Estou aqui para auxiliar no desenvolvimento de projetos, análise de dados e automação.";
+                }
+
+                currentMessages.push({ role: 'assistant', content: aiContent });
+                addBubble(aiContent, 'ai', true);
+                
+                saveCurrentChat(currentMessages);
+
+            } catch (error) {
+                removeTyping(typingId);
+                console.error(error);
+                addBubble("Erro de conexão. Verifique sua internet ou a chave de API.", 'ai', false);
+            } finally {
+                sendBtn.disabled = false;
+                document.getElementById('chat-input').focus();
+            }
         }
-    }
 
-    function verificarPremium() {
-        if (isPremium) {
-            const badge = document.getElementById('status-badge');
-            badge.innerText = "Rano Pro ✨";
-            badge.style.background = "var(--premium-color)";
-            badge.style.color = "#000";
-            badge.style.fontWeight = "bold";
-            document.getElementById('logo-text').style.color = "var(--premium-color)";
+        // --- RENDERIZAÇÃO E UTILS ---
+        function addBubble(content, type, isMarkdown) {
+            const area = document.getElementById('chat-area');
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${type}-bubble`;
+
+            if (isMarkdown) {
+                bubble.innerHTML = markdownToHtml(content);
+                // Aplica highlight nos blocos de código
+                bubble.querySelectorAll('pre code').forEach(block => {
+                    hljs.highlightElement(block);
+                });
+            } else {
+                bubble.textContent = content;
+            }
+
+            area.appendChild(bubble);
+            area.scrollTop = area.scrollHeight;
         }
-    }
 
-    function salvarHistorico() {
-        localStorage.setItem('rano_history', document.getElementById('chat-container').innerHTML);
-    }
+        function showTyping() {
+            const area = document.getElementById('chat-area');
+            const id = 'typing-' + Date.now();
+            const bubble = document.createElement('div');
+            bubble.id = id;
+            bubble.className = 'message-bubble ai-bubble';
+            bubble.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Rano AI está processando...';
+            area.appendChild(bubble);
+            area.scrollTop = area.scrollHeight;
+            return id;
+        }
 
-    function carregarHistorico() {
-        const history = localStorage.getItem('rano_history');
-        if (history) document.getElementById('chat-container').innerHTML = history;
-    }
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if(el) el.remove();
+        }
 
-    function limparTudo() {
-        localStorage.clear();
-        location.reload();
-    }
-</script>
+        function markdownToHtml(markdown) {
+            const parts = markdown.split(/(```[\s\S]*?```)/g);
+            return parts.map(part => {
+                if (part.startsWith('```')) {
+                    const match = part.match(/```(\w+)?\s*([\s\S]*?)```/);
+                    if (match) {
+                        const lang = match[1] || 'plaintext';
+                        const code = match[2];
+                        // Escape HTML characters
+                        const escaped = code.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        return `
+                        <div class="code-block-container">
+                            <div class="code-header">
+                                <span>${lang}</span>
+                                <button class="copy-code-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copiar
+                                </button>
+                            </div>
+                            <pre><code class="language-${lang}">${escaped}</code></pre>
+                        </div>`;
+                    }
+                    return part;
+                } else {
+                    // Basic Markdown
+                    let html = part
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                        .replace(/`(.*?)`/g, '<code style="background:rgba(255,255,255,0.1); padding:2px 4px; border-radius:4px;">$1</code>')
+                        .replace(/\n/g, '<br>');
+                    return html;
+                }
+            }).join('');
+        }
 
+        function copyCode(btn) {
+            const code = btn.closest('.code-block-container').querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                setTimeout(() => btn.innerHTML = original, 2000);
+            });
+        }
+
+        // --- SISTEMA DE CONFIGURAÇÃO (API) ---
+        function loadApiConfig() {
+            const config = JSON.parse(localStorage.getItem(CONFIG_KEY));
+            if (config) {
+                apiKey = config.apiKey;
+                currentModel = config.model;
+                document.getElementById('api-key-input').value = apiKey;
+                document.getElementById('model-selector').value = currentModel;
+                
+                if(apiKey) activateProMode();
+            }
+        }
+
+        async function saveAndValidateConfig() {
+            const keyInput = document.getElementById('api-key-input').value.trim();
+            const modelInput = document.getElementById('model-selector').value;
+            const statusMsg = document.getElementById('config-status-message');
+
+            if (!keyInput) {
+                statusMsg.innerHTML = '<span style="color: var(--danger)">Insira uma chave válida.</span>';
+                return;
+            }
+
+            statusMsg.innerHTML = '<span style="color: var(--primary)"><i class="fas fa-spinner fa-spin"></i> Validando...</span>';
+
+            try {
+                // Teste rápido
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { "Authorization": `Bearer ${keyInput}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ "model": modelInput, "messages": [{"role":"user", "content":"hi"}], "max_tokens": 1 })
+                });
+
+                if (response.ok || response.status === 400) {
+                    const config = { apiKey: keyInput, model: modelInput };
+                    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+                    apiKey = keyInput;
+                    currentModel = modelInput;
+                    
+                    activateProMode();
+                    
+                    statusMsg.innerHTML = '<span style="color: var(--success)">Chave Válida! Configuração salva.</span>';
+                    setTimeout(closeConfigModal, 1500);
+                } else {
+                    throw new Error('Chave recusada');
+                }
+            } catch (e) {
+                statusMsg.innerHTML = '<span style="color: var(--danger)">Erro ao validar chave.</span>';
+            }
+        }
+
+        function activateProMode() {
+            isPro = true;
+            const badge = document.getElementById('tier-badge-display');
+            badge.textContent = "PRO";
+            badge.classList.add('tier-pro');
+        }
+
+        // --- CONTROLES DE UI ---
+        function openConfigModal() { document.getElementById('config-modal').style.display = 'flex'; loadApiConfig(); }
+        function closeConfigModal() { document.getElementById('config-modal').style.display = 'none'; }
+        
+        function openPlansModal() { document.getElementById('plans-modal').style.display = 'flex'; }
+        function closePlansModal() { document.getElementById('plans-modal').style.display = 'none'; }
+        
+        function toggleHistory() { 
+            document.getElementById('history-modal').classList.toggle('open'); 
+        }
+
+    </script>
 </body>
 </html>
