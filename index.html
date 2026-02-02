@@ -234,165 +234,74 @@
             line-height: 1.5;
         }
 
-        @media (max-width: 768px) {
-            .prompt-cards {
-                grid-template-columns: 1fr;
-            }
+        /* Plans Section */
+        .plans-section {
+            padding: 80px 8%;
+            background: linear-gradient(180deg, var(--bg) 0%, #252525 100%);
         }
 
-        /* Feature Section */
-        .feature-section {
-            padding: 100px 8%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .feature-content h2 {
-            font-size: 40px;
-            font-weight: 700;
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 800;
             margin-bottom: 20px;
         }
 
-        .feature-content p {
-            font-size: 16px;
-            color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .feature-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .feature-item i {
-            color: var(--primary);
-        }
-
-        /* Code Preview */
-        .code-preview {
-            background: #1e1e1e;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 24px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .code-preview::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), #6b5ab5);
-        }
-
-        .code-line {
-            display: block;
-            animation: fadeInCode 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        .code-line:nth-child(1) { animation-delay: 0.1s; }
-        .code-line:nth-child(2) { animation-delay: 0.2s; }
-        .code-line:nth-child(3) { animation-delay: 0.3s; }
-        .code-line:nth-child(4) { animation-delay: 0.4s; }
-        .code-line:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeInCode {
-            to { opacity: 1; }
-        }
-
-        .keyword { color: #c586c0; }
-        .function { color: #dcdcaa; }
-        .string { color: #ce9178; }
-        .comment { color: #6a9955; }
-
-        /* Pricing */
-        #pricing {
-            padding: 100px 8%;
-        }
-
-        .pricing-header {
+        .section-subtitle {
             text-align: center;
+            color: var(--text-muted);
+            font-size: 16px;
             margin-bottom: 60px;
         }
 
-        .pricing-header h2 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .pricing-header p {
-            font-size: 16px;
-            color: var(--text-muted);
-        }
-
-        .pricing-cards {
+        .plans-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .pricing-card {
+        .plan-card {
             background: var(--bg-light);
             border: 2px solid var(--border);
             border-radius: 16px;
-            padding: 40px;
+            padding: 40px 30px;
+            position: relative;
             transition: 0.3s;
         }
 
-        .pricing-card:hover {
+        .plan-card:hover {
+            transform: translateY(-10px);
             border-color: var(--primary);
-            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(139, 122, 219, 0.2);
         }
 
-        .pricing-card.featured {
+        .plan-card.highlighted {
             border-color: var(--primary);
-            position: relative;
+            background: linear-gradient(135deg, rgba(139, 122, 219, 0.05) 0%, var(--bg-light) 100%);
         }
 
-        .pricing-card.featured::before {
-            content: 'POPULAR';
+        .plan-badge {
             position: absolute;
             top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
+            right: 30px;
             background: var(--primary);
             color: #fff;
-            padding: 4px 16px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 600;
         }
 
         .plan-name {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
         }
 
         .plan-price {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 8px;
@@ -401,101 +310,108 @@
         .plan-price span {
             font-size: 16px;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 400;
+        }
+
+        .plan-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+            min-height: 40px;
         }
 
         .plan-features {
             list-style: none;
-            margin: 30px 0;
+            margin-bottom: 30px;
         }
 
         .plan-features li {
             padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 14px;
         }
 
         .plan-features li i {
             color: var(--primary);
-            font-size: 14px;
+            margin-right: 10px;
         }
 
-        .btn-plan {
+        .plan-cta {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: var(--primary);
-            color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            color: #fff;
             font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        .btn-plan:hover {
+        .plan-cta:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        /* FAQ */
-        #faq {
-            padding: 100px 8%;
+        .plan-cta.secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text);
         }
 
-        .faq-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .faq-header h2 {
-            font-size: 40px;
-            font-weight: 700;
-        }
-
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--bg-light);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .faq-item:hover {
+        .plan-cta.secondary:hover {
+            background: var(--glass);
             border-color: var(--primary);
         }
 
-        .faq-question {
-            font-weight: 600;
-            font-size: 16px;
+        /* Features Section */
+        .features-section {
+            padding: 80px 8%;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 122, 219, 0.1);
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            color: var(--primary);
         }
 
-        .faq-answer {
-            margin-top: 16px;
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-text {
+            font-size: 14px;
             color: var(--text-muted);
-            line-height: 1.7;
-            display: none;
+            line-height: 1.6;
         }
 
-        .faq-item.open .faq-answer {
-            display: block;
-        }
-
-        .faq-item.open .faq-question i {
-            transform: rotate(180deg);
-        }
-
-        /* Partner */
+        /* Partner Section */
         .partner-section {
             padding: 60px 8%;
             text-align: center;
@@ -505,250 +421,267 @@
         .partner-section p {
             font-size: 12px;
             color: var(--text-muted);
-            letter-spacing: 2px;
             margin-bottom: 20px;
+            letter-spacing: 2px;
         }
 
         .partner-logo {
             display: inline-flex;
             align-items: center;
-            gap: 14px;
-            color: white;
-            cursor: pointer;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
             transition: 0.3s;
+            padding: 15px 30px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-light);
         }
 
         .partner-logo:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 15px rgba(139, 122, 219, 0.5));
+            border-color: var(--primary);
+            transform: translateY(-3px);
         }
 
-        .symbol {
-            font-size: 48px;
-            font-weight: bold;
-            border: 2px solid white;
-            padding: 10px 14px;
+        .partner-logo .symbol {
+            font-size: 32px;
+            color: var(--primary);
         }
 
-        .brand {
-            font-size: 26px;
-            line-height: 1;
-            text-align: left;
+        .partner-logo .brand {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-        .brand span {
-            display: block;
-            font-size: 14px;
-            letter-spacing: 2px;
-            opacity: 0.8;
+        .partner-logo .brand strong {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .partner-logo .brand span {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
         /* Footer */
-        .footer {
-            padding: 60px 8%;
+        .landing-footer {
+            padding: 60px 8% 30px;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 40px;
-            margin-bottom: 40px;
+            max-width: 1100px;
+            margin: 0 auto 40px;
         }
 
-        .footer-section h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 16px;
+        .footer-brand h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
             color: var(--primary);
         }
 
-        .footer-section a {
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
             display: block;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 12px;
+            font-size: 13px;
+            margin-bottom: 10px;
             transition: 0.3s;
         }
 
-        .footer-section a:hover {
+        .footer-links a:hover {
             color: var(--primary);
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 40px;
+            padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.05);
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
-        /* ===== AUTH MODAL ===== */
-        #auth-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
+        /* ===== CHAT INTERFACE ===== */
+        #chat-interface {
             display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .auth-container {
-            display: flex;
-            width: 90%;
-            max-width: 1000px;
-            background: var(--bg-light);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-        }
-
-        .auth-image {
-            flex: 1;
-            background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1920') center/cover;
-        }
-
-        .auth-form-container {
-            flex: 0.8;
-            padding: 60px;
-        }
-
-        .auth-form-container h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 40px;
-            color: var(--primary);
-        }
-
-        .auth-form-container input {
-            width: 100%;
-            padding: 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            margin-bottom: 20px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .auth-form-container input:focus {
-            border-color: var(--primary);
-        }
-
-        .auth-submit {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .auth-submit:hover {
-            background: var(--primary-dark);
-        }
-
-        /* ===== DASHBOARD ===== */
-        #dashboard {
-            display: none;
-            flex-direction: column;
             height: 100vh;
+            flex-direction: column;
         }
 
-        #dashboard.active {
+        #chat-interface.active {
             display: flex;
         }
 
-        /* Dashboard Header */
-        .dash-header {
+        /* Top Bar */
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: var(--bg);
+            padding: 15px 30px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border);
         }
 
-        .user-info-dash {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .brand {
+            font-size: 18px;
             font-weight: 700;
-            font-size: 16px;
+            color: var(--primary);
         }
 
-        .user-name-dash {
-            font-weight: 600;
-            font-size: 14px;
+        .brand span {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
         }
 
-        .dash-actions {
+        .top-bar-actions {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .tier-badge-dash {
-            padding: 6px 16px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 12px;
+        .credits-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(139, 122, 219, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
         }
 
-        .tier-pro {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-
-        .dash-btn {
-            background: none;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        .dash-btn:hover {
+        .credits-display i {
             color: var(--primary);
         }
 
+        .tier-badge {
+            padding: 6px 14px;
+            background: var(--primary);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .tier-badge.tier-free {
+            background: #777;
+        }
+
+        .tier-badge.tier-standard {
+            background: #5a9fd4;
+        }
+
+        .tier-badge.tier-vision {
+            background: linear-gradient(135deg, #8b7adb 0%, #d47a9f 100%);
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn:hover {
+            background: var(--glass);
+            border-color: var(--primary);
+        }
+
         /* Chat Area */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Prompt Cards no Chat (Inicial) */
+        .chat-prompt-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .chat-prompt-cards.hidden {
+            display: none;
+        }
+
+        .chat-prompt-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: left;
+        }
+
+        .chat-prompt-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 122, 219, 0.2);
+        }
+
+        .chat-prompt-card i {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .chat-prompt-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .chat-prompt-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
         #chat-area {
             flex: 1;
             overflow-y: auto;
-            padding: 40px 20%;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+            padding: 20px 0;
         }
 
         .message-bubble {
-            max-width: 75%;
+            margin-bottom: 20px;
             padding: 16px 20px;
-            border-radius: 16px;
+            border-radius: 12px;
+            max-width: 80%;
             line-height: 1.6;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.3s ease-in;
         }
 
         @keyframes fadeIn {
@@ -757,474 +690,447 @@
         }
 
         .user-bubble {
-            align-self: flex-end;
             background: var(--primary);
             color: #fff;
-            border-bottom-right-radius: 4px;
+            margin-left: auto;
+            text-align: right;
         }
 
         .ai-bubble {
-            align-self: flex-start;
             background: var(--bg-light);
             border: 1px solid var(--border);
-            border-bottom-left-radius: 4px;
         }
 
-        /* Code Blocks in Chat */
+        /* Input Area */
+        .input-area {
+            padding: 20px 30px;
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 16px 20px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            outline: none;
+            resize: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        #send-btn {
+            padding: 16px 30px;
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        #send-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        #send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .modal input:focus {
+            border-color: var(--primary);
+        }
+
+        .modal button[type="button"] {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .modal button[type="button"]:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Code Block */
         .code-block-container {
-            background-color: #1e1e1e;
-            border-radius: 10px;
+            background: #1e1e1e;
+            border-radius: 8px;
             margin: 15px 0;
             overflow: hidden;
-            font-family: 'Courier New', Courier, monospace;
         }
 
         .code-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #2d2d2d;
-            padding: 8px 16px;
-            color: #abb2bf;
+            padding: 10px 15px;
+            background: #2d2d2d;
+            border-bottom: 1px solid #3a3a3a;
+        }
+
+        .code-header span {
             font-size: 12px;
-            border-bottom: 1px solid #3e4451;
+            color: #888;
+            text-transform: uppercase;
         }
 
         .copy-code-btn {
-            background: rgba(139, 122, 219, 0.2);
-            border: none;
-            color: var(--primary);
+            background: transparent;
+            border: 1px solid #444;
+            color: #aaa;
+            padding: 5px 12px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 12px;
-            padding: 5px 12px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
             transition: 0.3s;
         }
 
         .copy-code-btn:hover {
-            background: rgba(139, 122, 219, 0.4);
+            background: #3a3a3a;
+            color: #fff;
         }
 
-        .ai-bubble pre {
+        .code-block-container pre {
             margin: 0;
-            padding: 16px;
+            padding: 15px;
             overflow-x: auto;
-            color: #abb2bf;
-            background: #1e1e1e;
         }
 
-        .ai-bubble code {
-            font-family: Consolas, Monaco, 'Courier New', monospace;
+        .code-block-container code {
+            font-family: 'Courier New', monospace;
             font-size: 13px;
             line-height: 1.5;
+            color: #abb2bf;
         }
 
-        .ai-bubble strong {
-            font-weight: 700;
-            color: var(--primary);
+        /* Plans Modal */
+        #plans-modal .modal-content {
+            max-width: 900px;
+            padding: 50px;
         }
 
-        /* Chat Input */
-        .chat-input-container {
-            padding: 30px 20%;
-            background: var(--bg);
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .chat-input-box {
-            display: flex;
-            gap: 12px;
-            background: var(--bg-light);
-            padding: 12px 20px;
-            border-radius: 24px;
-            border: 2px solid var(--border);
-        }
-
-        .chat-input-box:focus-within {
-            border-color: var(--primary);
-        }
-
-        .chat-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            outline: none;
-            font-size: 15px;
-        }
-
-        .send-button {
-            background: var(--primary);
-            border: none;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .send-button:hover {
-            background: var(--primary-dark);
-            transform: scale(1.1);
-        }
-
-        /* Config Modal */
-        #config-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .config-content {
-            background: var(--bg-light);
-            padding: 40px;
-            border-radius: 16px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid var(--border);
-        }
-
-        .config-content h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--primary);
-        }
-
-        .config-content label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-        }
-
-        .config-content input {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            margin-bottom: 20px;
-            outline: none;
-        }
-
-        .config-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        .config-buttons button {
-            flex: 1;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn-validate {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-        }
-
-        .btn-validate:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-cancel-config {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        /* History Modal */
+        /* History Sidebar */
         #history-modal {
             position: fixed;
             top: 0;
-            right: 0;
+            right: -400px;
             width: 400px;
-            height: 100vh;
+            height: 100%;
             background: var(--bg-light);
             border-left: 1px solid var(--border);
-            transform: translateX(100%);
             transition: 0.3s;
             z-index: 999;
+            padding: 30px;
             overflow-y: auto;
         }
 
         #history-modal.open {
-            transform: translateX(0);
+            right: 0;
         }
 
-        .history-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .history-header h3 {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .close-history {
-            background: none;
+        .history-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
             border: none;
             color: var(--text);
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
         }
 
-        .history-list {
-            padding: 16px;
-        }
-
-        .history-item-dash {
-            padding: 16px;
-            background: var(--bg);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .history-item-dash:hover {
-            border-color: var(--primary);
-        }
-
-        .history-item-dash h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .history-item-dash p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* Plans Modal */
-        #plans-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+        /* Overlay para modais/sidebars */
+        .modal-overlay {
             display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
         }
 
-        .plans-content {
-            background: var(--bg-light);
-            padding: 40px;
-            border-radius: 16px;
-            max-width: 600px;
-            width: 90%;
+        .modal-overlay.active {
+            display: block;
         }
 
-        /* Mobile */
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .plans-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prompt-cards,
+            .chat-prompt-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .feature-section { grid-template-columns: 1fr; }
-            .pricing-cards { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; }
-            #chat-area { padding: 40px 5%; }
-            .chat-input-container { padding: 20px 5%; }
-            #history-modal { width: 90%; }
+            .hero-section h1 {
+                font-size: 36px;
+            }
+
+            .prompt-cards,
+            .chat-prompt-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            #history-modal {
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- LANDING PAGE -->
+    <!-- ========== LANDING PAGE ========== -->
     <div id="landing-page">
+        
+        <!-- Header -->
         <header class="landing-header">
             <div class="logo-version">
-                Rano <span>v1.2</span>
+                Rano AI <span>v1.2</span>
             </div>
             <nav class="nav-links">
-                <a href="#recursos">Recursos</a>
-                <a href="#pricing">Planos</a>
+                <a href="#features">Recursos</a>
+                <a href="#plans">Planos</a>
             </nav>
             <div class="header-actions">
-                <button class="btn-login" onclick="openAuth()">Login</button>
-                <button class="btn-start" onclick="openAuth()">Começar Agora</button>
+                <button class="btn-login" onclick="openLoginModal()">Entrar</button>
+                <button class="btn-start" onclick="openRegisterModal()">Começar Grátis</button>
             </div>
         </header>
 
+        <!-- Hero Section -->
         <section class="hero-section">
-            <div class="version-tag">✨ Novidades na versão 1.2</div>
-            <h1>Dê vida às suas ideias com <span style="color: var(--primary);">Rano</span></h1>
+            <div class="version-tag">🚀 Versão 1.2 disponível</div>
+            <h1>Inteligência Artificial<br>ao seu alcance</h1>
             <p class="hero-subtitle">
-                Crie aplicativos, dashboards e APIs com inteligência artificial. Deploy em minutos, sem código e sem compilação.
+                Converse, crie, analise e transforme suas ideias em realidade com a Rano AI, 
+                desenvolvida pela Nexus para potencializar sua produtividade.
             </p>
 
             <div class="prompt-input-container">
-                <input type="text" class="prompt-input" id="landing-input" placeholder=" " onkeypress="if(event.key==='Enter') openAuth()">
-                <div class="prompt-suggestions" id="suggestion-text">Crie uma dashboard financeira completa...</div>
+                <input 
+                    type="text" 
+                    class="prompt-input" 
+                    placeholder="Digite sua pergunta..."
+                    onkeypress="if(event.key==='Enter') handleLandingPrompt(this.value)"
+                >
             </div>
 
             <div class="prompt-cards">
-                <div class="prompt-card" onclick="useLandingPrompt('Desenvolva um design de interface Dark para um app de crypto')">
-                    <i class="fas fa-palette"></i>
-                    <h3>UI/UX Design</h3>
-                    <p>Interfaces futuristas de alto nível</p>
-                </div>
-                <div class="prompt-card" onclick="useLandingPrompt('Crie um script em Python para minerar dados da web')">
+                <div class="prompt-card" onclick="handleLandingPrompt('Crie um código Python para análise de dados')">
                     <i class="fas fa-code"></i>
-                    <h3>Deep Data</h3>
-                    <p>Automação e análise de dados</p>
+                    <h3>Programação</h3>
+                    <p>Gere códigos, explique conceitos e resolva bugs</p>
                 </div>
-                <div class="prompt-card" onclick="useLandingPrompt('Explique como funciona a inteligência artificial moderna')">
-                    <i class="fas fa-brain"></i>
-                    <h3>AI Insights</h3>
-                    <p>Conhecimento técnico sobre IA</p>
+                <div class="prompt-card" onclick="handleLandingPrompt('Me ajude a escrever um artigo sobre inteligência artificial')">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>Escrita Criativa</h3>
+                    <p>Artigos, roteiros, histórias e muito mais</p>
                 </div>
-                <div class="prompt-card" onclick="useLandingPrompt('Construa uma API REST completa com autenticação')">
-                    <i class="fas fa-server"></i>
-                    <h3>API Builder</h3>
-                    <p>APIs REST completas</p>
+                <div class="prompt-card" onclick="handleLandingPrompt('Explique como funciona a fotossíntese')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Educação</h3>
+                    <p>Aprenda sobre qualquer assunto</p>
+                </div>
+                <div class="prompt-card" onclick="handleLandingPrompt('Analise esses dados de vendas e forneça insights')">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Análise de Dados</h3>
+                    <p>Insights e visualizações inteligentes</p>
                 </div>
             </div>
         </section>
 
-        <section class="feature-section" id="recursos">
-            <div class="feature-content">
-                <h2>Crie seu app do seu jeito</h2>
-                <p>Dê a ideia, deploy em minutos sem código e sem compilação. A Rano AI transforma suas ideias em aplicações reais.</p>
-                
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Criação de APIs REST completas</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Dashboards interativos e responsivos</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Deploy automático e escalável</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Ajustes simples em tempo real</span>
-                    </div>
-                </div>
-            </div>
+        <!-- Plans Section -->
+        <section class="plans-section" id="plans">
+            <h2 class="section-title">Escolha seu plano</h2>
+            <p class="section-subtitle">Planos flexíveis para todas as necessidades</p>
 
-            <div class="code-preview">
-                <span class="code-line"><span class="keyword">const</span> <span class="function">createAPI</span> = () => {</span>
-                <span class="code-line">  <span class="keyword">return</span> {</span>
-                <span class="code-line">    endpoint: <span class="string">'/api/users'</span>,</span>
-                <span class="code-line">    method: <span class="string">'GET'</span>,</span>
-                <span class="code-line">    response: <span class="string">'success'</span></span>
-                <span class="code-line">  }</span>
-                <span class="code-line">}</span>
-                <span class="code-line"><span class="comment">// Criado por Rano AI</span></span>
-            </div>
-        </section>
-
-        <section id="pricing">
-            <div class="pricing-header">
-                <h2>Planos Disponíveis</h2>
-                <p>Escolha o plano ideal para suas necessidades</p>
-            </div>
-
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="plan-name">Starter</div>
-                    <div class="plan-price">R$ 16<span>/mês</span></div>
+            <div class="plans-grid">
+                <!-- Free Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price">R$ 0<span>/mês</span></div>
+                    <div class="plan-description">Para quem quer experimentar a Rano AI</div>
                     <ul class="plan-features">
-                        <li><i class="fas fa-check"></i> 5 chats por dia</li>
-                        <li><i class="fas fa-check"></i> Modelo Standard</li>
-                        <li><i class="fas fa-check"></i> Histórico limitado</li>
-                        <li><i class="fas fa-check"></i> Suporte por email</li>
+                        <li><i class="fas fa-check"></i> 30 créditos mensais</li>
+                        <li><i class="fas fa-check"></i> Modelo Z-AI Básico</li>
+                        <li><i class="fas fa-check"></i> Suporte básico</li>
+                        <li><i class="fas fa-check"></i> Acesso a recursos básicos</li>
                     </ul>
-                    <button class="btn-plan" onclick="alert('Plano em breve! Este é um protótipo.')">Assinar Starter</button>
+                    <button class="plan-cta secondary" onclick="openRegisterModal()">Começar grátis</button>
                 </div>
 
-                <div class="pricing-card featured">
-                    <div class="plan-name">Pro</div>
-                    <div class="plan-price">R$ 38<span>/mês</span></div>
+                <!-- Standard Plan -->
+                <div class="plan-card highlighted">
+                    <div class="plan-badge">Mais popular</div>
+                    <div class="plan-name">Standard</div>
+                    <div class="plan-price">R$ 29<span>/mês</span></div>
+                    <div class="plan-description">Perfeito para uso profissional diário</div>
                     <ul class="plan-features">
-                        <li><i class="fas fa-check"></i> Chats ilimitados</li>
-                        <li><i class="fas fa-check"></i> Modelo Advanced</li>
-                        <li><i class="fas fa-check"></i> Sem marca d'água</li>
-                        <li><i class="fas fa-check"></i> Integração com APIs</li>
+                        <li><i class="fas fa-check"></i> 300 créditos mensais</li>
+                        <li><i class="fas fa-check"></i> Modelo Z-AI Avançado</li>
                         <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> Histórico de conversas</li>
+                        <li><i class="fas fa-check"></i> Respostas mais rápidas</li>
                     </ul>
-                    <button class="btn-plan" onclick="alert('Plano em breve! Este é um protótipo.')">Assinar Pro</button>
+                    <button class="plan-cta" onclick="alert('Entre em contato para assinar')">Assinar agora</button>
+                </div>
+
+                <!-- Vision Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Vision</div>
+                    <div class="plan-price">R$ 99<span>/mês</span></div>
+                    <div class="plan-description">Sem limites, com sua própria API</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Créditos ilimitados</li>
+                        <li><i class="fas fa-check"></i> Use sua própria API</li>
+                        <li><i class="fas fa-check"></i> Modelos avançados</li>
+                        <li><i class="fas fa-check"></i> Suporte VIP 24/7</li>
+                        <li><i class="fas fa-check"></i> Integrações personalizadas</li>
+                    </ul>
+                    <button class="plan-cta" onclick="alert('Entre em contato para assinar')">Assinar Vision</button>
                 </div>
             </div>
         </section>
 
-        <section id="faq">
-            <div class="faq-header">
-                <h2>Perguntas Frequentes</h2>
-            </div>
+        <!-- Features Section -->
+        <section class="features-section" id="features">
+            <h2 class="section-title">Recursos incríveis</h2>
+            <p class="section-subtitle">Tudo que você precisa em uma única plataforma</p>
 
-            <div class="faq-list">
-                <div class="faq-item" onclick="this.classList.toggle('open')">
-                    <div class="faq-question">
-                        O que é a Rano AI?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        A Rano AI é uma plataforma de inteligência artificial desenvolvida pela Nexus que permite criar aplicações, dashboards e APIs sem código.
-                    </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3 class="feature-title">Respostas Instantâneas</h3>
+                    <p class="feature-text">Obtenha respostas inteligentes em segundos, não em minutos.</p>
                 </div>
-
-                <div class="faq-item" onclick="this.classList.toggle('open')">
-                    <div class="faq-question">
-                        Preciso saber programar?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Não! A Rano AI foi projetada para que qualquer pessoa possa criar aplicações apenas descrevendo suas ideias.
-                    </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="feature-title">Segurança Total</h3>
+                    <p class="feature-text">Seus dados são criptografados e nunca compartilhados.</p>
                 </div>
-
-                <div class="faq-item" onclick="this.classList.toggle('open')">
-                    <div class="faq-question">
-                        Como funciona o plano Pro?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        O plano Pro oferece acesso ilimitado ao modelo Advanced, sem marcas d'água e com integrações completas de API.
-                    </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+                    <h3 class="feature-title">Personalizável</h3>
+                    <p class="feature-text">Configure a IA de acordo com suas necessidades.</p>
                 </div>
-
-                <div class="faq-item" onclick="this.classList.toggle('open')">
-                    <div class="faq-question">
-                        Posso cancelar a qualquer momento?
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        Sim! Você pode cancelar sua assinatura a qualquer momento sem custos adicionais.
-                    </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-cloud"></i></div>
+                    <h3 class="feature-title">100% Online</h3>
+                    <p class="feature-text">Acesse de qualquer lugar, a qualquer momento.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3 class="feature-title">Colaboração</h3>
+                    <p class="feature-text">Compartilhe conversas e trabalhe em equipe.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                    <h3 class="feature-title">Sempre Evoluindo</h3>
+                    <p class="feature-text">Novos recursos e melhorias constantes.</p>
                 </div>
             </div>
         </section>
 
+        <!-- Partner Section -->
         <div class="partner-section">
             <p>PARCEIRO OFICIAL</p>
             <a href="https://indie-game-landing-2mgmtk14.sites.blink.new/wiki?v=1769917229388&t=1769917229388" target="_blank" class="partner-logo">
@@ -1236,245 +1142,469 @@
             </a>
         </div>
 
-        <footer class="footer">
+        <!-- Footer -->
+        <footer class="landing-footer">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Produto</h4>
-                    <a href="#recursos">Recursos</a>
-                    <a href="#pricing">Preços</a>
-                    <a href="#faq">FAQ</a>
+                <div class="footer-brand">
+                    <h3>Rano AI</h3>
+                    <p>Desenvolvida pela Nexus para transformar a forma como você interage com inteligência artificial.</p>
                 </div>
-                <div class="footer-section">
+                <div class="footer-links">
+                    <h4>Produto</h4>
+                    <a href="#features">Recursos</a>
+                    <a href="#plans">Planos</a>
+                    <a href="#">Documentação</a>
+                </div>
+                <div class="footer-links">
                     <h4>Empresa</h4>
                     <a href="#">Sobre</a>
                     <a href="#">Blog</a>
-                    <a href="#">Carreiras</a>
-                </div>
-                <div class="footer-section">
-                    <h4>Suporte</h4>
-                    <a href="#">Documentação</a>
                     <a href="#">Contato</a>
-                    <a href="#">Status</a>
                 </div>
-                <div class="footer-section">
+                <div class="footer-links">
                     <h4>Legal</h4>
-                    <a href="#">Termos</a>
+                    <a href="#">Termos de Uso</a>
                     <a href="#">Privacidade</a>
+                    <a href="#">Cookies</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                © 2026 Rano AI - Powered by Nexus | Todos os direitos reservados
+                © 2025 Rano AI by Nexus. Todos os direitos reservados.
             </div>
         </footer>
+
     </div>
 
-    <!-- AUTH MODAL -->
-    <div id="auth-modal">
-        <div class="auth-container">
-            <div class="auth-image"></div>
-            <div class="auth-form-container">
-                <h2>Bem-vindo à Rano</h2>
-                <input type="text" id="auth-name" placeholder="Nome">
-                <input type="email" id="auth-email" placeholder="Email">
-                <button class="auth-submit" onclick="handleLogin()">
-                    <i class="fas fa-sign-in-alt"></i> Entrar
+    <!-- ========== CHAT INTERFACE ========== -->
+    <div id="chat-interface">
+        
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="brand">Rano AI <span>v1.2</span></div>
+            <div class="top-bar-actions">
+                <div class="credits-display">
+                    <i class="fas fa-coins"></i>
+                    <span id="credits-count">30</span> créditos
+                </div>
+                <div class="tier-badge tier-free" id="tier-badge-display">Free</div>
+                <button class="icon-btn" onclick="openPlansModal()">
+                    <i class="fas fa-crown"></i> Upgrade
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div id="dashboard">
-        <header class="dash-header">
-            <div class="user-info-dash">
-                <div class="user-avatar" id="user-avatar">U</div>
-                <div class="user-name-dash" id="user-name-display">Usuário</div>
-            </div>
-
-            <div class="dash-actions">
-                <div class="tier-badge-dash" id="tier-badge-display">Free</div>
-                <button class="dash-btn" onclick="openPlansModal()" title="Planos">
-                    <i class="fas fa-crown"></i>
-                </button>
-                <button class="dash-btn" onclick="toggleHistory()" title="Histórico">
+                <button class="icon-btn" onclick="toggleHistory()">
                     <i class="fas fa-history"></i>
                 </button>
-                <button class="dash-btn" onclick="openConfig()" title="Configurações">
+                <button class="icon-btn" onclick="openConfig()">
                     <i class="fas fa-cog"></i>
                 </button>
-                <button class="dash-btn" onclick="logout()" title="Sair">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
-        </header>
-
-        <div id="chat-area"></div>
-
-        <div class="chat-input-container">
-            <div class="chat-input-box">
-                <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') sendMessage()">
-                <button class="send-button" onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
+                <button class="icon-btn" onclick="logout()" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i> Sair
                 </button>
             </div>
         </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <!-- Prompt Cards Iniciais -->
+            <div class="chat-prompt-cards" id="initial-prompts">
+                <div class="chat-prompt-card" onclick="selectPrompt('Crie um código Python para análise de dados com pandas')">
+                    <i class="fas fa-code"></i>
+                    <h3>Programação</h3>
+                    <p>Crie um código Python para análise de dados</p>
+                </div>
+                <div class="chat-prompt-card" onclick="selectPrompt('Me ajude a escrever um artigo profissional sobre tecnologia')">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>Escrita</h3>
+                    <p>Artigo profissional sobre tecnologia</p>
+                </div>
+                <div class="chat-prompt-card" onclick="selectPrompt('Explique conceitos de machine learning de forma simples')">
+                    <i class="fas fa-brain"></i>
+                    <h3>Educação</h3>
+                    <p>Explique conceitos de ML de forma simples</p>
+                </div>
+                <div class="chat-prompt-card" onclick="selectPrompt('Analise esses dados e forneça insights acionáveis')">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Análise</h3>
+                    <p>Forneça insights sobre dados</p>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chat-area"></div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea 
+                    id="chat-input" 
+                    placeholder="Digite sua mensagem..." 
+                    rows="1"
+                    onkeypress="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"
+                ></textarea>
+                <button id="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i> Enviar
+                </button>
+            </div>
+        </div>
+
     </div>
 
-    <!-- CONFIG MODAL -->
-    <div id="config-modal">
-        <div class="config-content">
-            <h2>Configurações</h2>
-            <label>Chave API OpenRouter</label>
-            <input type="password" id="api-key-input" placeholder="sk-or-v1-...">
+    <!-- ========== MODALS ========== -->
+
+    <!-- Overlay -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeAllModals()"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLoginModal()">×</button>
+            <h2>Entrar</h2>
+            <input type="email" id="login-email" placeholder="E-mail">
+            <input type="password" id="login-password" placeholder="Senha">
+            <button type="button" onclick="handleLogin()">Entrar</button>
+            <p style="text-align: center; margin-top: 15px; color: var(--text-muted); font-size: 13px;">
+                Não tem conta? <a href="#" onclick="closeLoginModal(); openRegisterModal();" style="color: var(--primary);">Registre-se</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeRegisterModal()">×</button>
+            <h2>Criar Conta</h2>
+            <input type="text" id="register-name" placeholder="Nome completo">
+            <input type="email" id="register-email" placeholder="E-mail">
+            <input type="password" id="register-password" placeholder="Senha">
+            <button type="button" onclick="handleRegister()">Criar conta</button>
+            <p style="text-align: center; margin-top: 15px; color: var(--text-muted); font-size: 13px;">
+                Já tem conta? <a href="#" onclick="closeRegisterModal(); openLoginModal();" style="color: var(--primary);">Entrar</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Config Modal -->
+    <div id="config-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeConfig()">×</button>
+            <h2>Configurações - Plano Vision</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">
+                Adicione sua própria chave de API para usar o plano Vision com créditos ilimitados.
+            </p>
+            <input type="text" id="api-key-input" placeholder="Sua chave de API">
+            <input type="text" id="user-id-input" placeholder="ID do usuário (opcional)">
+            <div id="config-status" style="margin-top: 15px; text-align: center;"></div>
+            <button type="button" onclick="saveApiKey()">Salvar e Ativar Vision</button>
+        </div>
+    </div>
+
+    <!-- Plans Modal -->
+    <div id="plans-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePlansModal()">×</button>
+            <h2 style="text-align: center; margin-bottom: 40px;">Escolha seu plano</h2>
             
-            <label>User ID</label>
-            <input type="text" id="user-id-input" placeholder="Seu User ID">
+            <div class="plans-grid" style="margin-bottom: 0;">
+                <!-- Free Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price">R$ 0<span>/mês</span></div>
+                    <div class="plan-description">Para quem quer experimentar</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 30 créditos/mês</li>
+                        <li><i class="fas fa-check"></i> Modelo Z-AI Básico</li>
+                        <li><i class="fas fa-check"></i> Suporte básico</li>
+                    </ul>
+                    <button class="plan-cta secondary" disabled>Plano atual</button>
+                </div>
 
-            <div id="config-status" style="margin-top: 10px; font-size: 13px;"></div>
+                <!-- Standard Plan -->
+                <div class="plan-card highlighted">
+                    <div class="plan-badge">Mais popular</div>
+                    <div class="plan-name">Standard</div>
+                    <div class="plan-price">R$ 29<span>/mês</span></div>
+                    <div class="plan-description">Uso profissional</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 300 créditos/mês</li>
+                        <li><i class="fas fa-check"></i> Modelo Z-AI Avançado</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> Histórico completo</li>
+                    </ul>
+                    <button class="plan-cta" onclick="alert('Contate-nos para assinar')">Assinar</button>
+                </div>
 
-            <div class="config-buttons">
-                <button class="btn-validate" onclick="validateConfig()">Validar</button>
-                <button class="btn-cancel-config" onclick="closeConfig()">Cancelar</button>
+                <!-- Vision Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Vision</div>
+                    <div class="plan-price">R$ 99<span>/mês</span></div>
+                    <div class="plan-description">Sem limites</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> Ilimitado</li>
+                        <li><i class="fas fa-check"></i> Sua própria API</li>
+                        <li><i class="fas fa-check"></i> Modelos avançados</li>
+                        <li><i class="fas fa-check"></i> Suporte VIP</li>
+                    </ul>
+                    <button class="plan-cta" onclick="closePlansModal(); openConfig();">Configurar Vision</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- HISTORY MODAL -->
+    <!-- History Sidebar -->
     <div id="history-modal">
-        <div class="history-header">
-            <h3>Histórico</h3>
-            <button class="close-history" onclick="toggleHistory()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="history-list" id="history-list">
-            <div class="history-item-dash">
-                <h4>Exemplo de conversa</h4>
-                <p>Há 2 dias</p>
-            </div>
-        </div>
+        <button class="history-close-btn" onclick="toggleHistory()">×</button>
+        <h2 style="margin-bottom: 20px;">Histórico</h2>
+        <p style="color: var(--text-muted);">Suas conversas aparecerão aqui.</p>
     </div>
 
-    <!-- PLANS MODAL -->
-    <div id="plans-modal">
-        <div class="plans-content">
-            <h2 style="margin-bottom: 20px;">Escolha seu Plano</h2>
-            <p style="color: var(--text-muted); margin-bottom: 30px;">Upgrade para Pro e tenha acesso ilimitado</p>
-            
-            <div style="background: var(--bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid var(--primary);">
-                <h3 style="color: var(--primary); margin-bottom: 10px;">Plano Starter - R$ 16/mês</h3>
-                <p style="font-size: 14px; color: var(--text-muted);">5 chats por dia • Modelo Standard</p>
-                <button class="btn-plan" style="margin-top: 15px;" onclick="alert('Em breve!')">Assinar</button>
-            </div>
-
-            <button class="btn-cancel-config" style="width: 100%; padding: 14px;" onclick="closePlansModal()">Fechar</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
+    <!-- ========== JAVASCRIPT ========== -->
     <script>
-        // --- CONFIGURAÇÃO API ---
+        // ===== VARIABLES =====
         const API_URL = "https://openrouter.ai/api/v1/chat/completions";
-        const DEFAULT_MODEL = "openai/gpt-oss-120b:free";
-        const ADVANCED_MODEL = "z-ai/glm-4.5-air:free";
-
-        // State
+        const FREE_MODEL = "openai/gpt-oss-120b:free"; // Modelo Free
+        const STANDARD_MODEL = "z-ai/glm-4.5-air:free"; // Modelo Standard (Avançado)
+        const DEFAULT_API_KEY = "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";
+        
+        let chatHistory = [];
+        let userPlan = 'free'; // 'free', 'standard', 'vision'
+        let credits = 30;
+        let maxCredits = 30;
+        let userApiKey = null;
+        let responseStartTime = null;
+        let creditCheckInterval = null;
         let isLoggedIn = false;
         let currentUser = null;
-        let isPro = false;
-        let apiKey = null;
-        let chatHistory = [];
-        let pendingPrompt = null;
 
-        // Prompt Suggestions Animation
-        const suggestions = [
-            "Crie uma dashboard financeira completa...",
-            "Desenvolva uma API REST de usuários...",
-            "Construa um app de tarefas com React...",
-            "Gere um sistema de autenticação JWT..."
-        ];
-        let currentSuggestion = 0;
-
-        setInterval(() => {
-            const suggestionEl = document.getElementById('suggestion-text');
-            if(suggestionEl) {
-                suggestionEl.style.opacity = '0';
-                setTimeout(() => {
-                    currentSuggestion = (currentSuggestion + 1) % suggestions.length;
-                    suggestionEl.textContent = suggestions[currentSuggestion];
-                    suggestionEl.style.opacity = '1';
-                }, 300);
-            }
-        }, 3000);
-
-        // Landing Prompt Cards
-        function useLandingPrompt(prompt) {
-            pendingPrompt = prompt;
-            openAuth();
+        // ===== LOCALSTORAGE =====
+        function saveToLocalStorage() {
+            const data = {
+                isLoggedIn,
+                currentUser,
+                userPlan,
+                credits,
+                maxCredits,
+                userApiKey,
+                chatHistory
+            };
+            localStorage.setItem('ranoAI_data', JSON.stringify(data));
         }
 
-        // Auth
-        function openAuth() {
-            document.getElementById('auth-modal').style.display = 'flex';
-        }
-
-        function handleLogin() {
-            const name = document.getElementById('auth-name').value.trim();
-            const email = document.getElementById('auth-email').value.trim();
-
-            if(!name || !email) {
-                alert('Preencha todos os campos');
-                return;
-            }
-
-            currentUser = { name, email };
-            isLoggedIn = true;
-
-            document.getElementById('auth-modal').style.display = 'none';
-            document.getElementById('landing-page').classList.add('hidden');
-            document.getElementById('dashboard').classList.add('active');
-
-            document.getElementById('user-name-display').textContent = name;
-            document.getElementById('user-avatar').textContent = name[0].toUpperCase();
-
-            // Se tinha prompt pendente, usa ele
-            if(pendingPrompt) {
-                document.getElementById('chat-input').value = pendingPrompt;
-                pendingPrompt = null;
-                setTimeout(() => sendMessage(), 500);
+        function loadFromLocalStorage() {
+            const saved = localStorage.getItem('ranoAI_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    isLoggedIn = data.isLoggedIn || false;
+                    currentUser = data.currentUser || null;
+                    userPlan = data.userPlan || 'free';
+                    credits = data.credits || 30;
+                    maxCredits = data.maxCredits || 30;
+                    userApiKey = data.userApiKey || null;
+                    chatHistory = data.chatHistory || [];
+                    
+                    if (isLoggedIn && currentUser) {
+                        // Usuário está logado, ir direto para o chat
+                        startChatInterface();
+                    }
+                } catch (e) {
+                    console.error('Erro ao carregar dados:', e);
+                }
             }
         }
 
         function logout() {
-            if(confirm('Deseja sair?')) {
-                isLoggedIn = false;
-                currentUser = null;
-                isPro = false;
-                apiKey = null;
-                chatHistory = [];
-                document.getElementById('chat-area').innerHTML = '';
-                document.getElementById('dashboard').classList.remove('active');
-                document.getElementById('landing-page').classList.remove('hidden');
-            }
+            // Limpar todos os dados
+            isLoggedIn = false;
+            currentUser = null;
+            userPlan = 'free';
+            credits = 30;
+            maxCredits = 30;
+            userApiKey = null;
+            chatHistory = [];
+            
+            // Limpar localStorage
+            localStorage.removeItem('ranoAI_data');
+            
+            // Voltar para landing page
+            document.getElementById('chat-interface').classList.remove('active');
+            document.getElementById('landing-page').classList.remove('hidden');
+            
+            // Limpar área de chat
+            document.getElementById('chat-area').innerHTML = '';
+            document.getElementById('initial-prompts').classList.remove('hidden');
         }
 
-        // Config
+        // Carregar dados ao iniciar
+        window.addEventListener('load', () => {
+            loadFromLocalStorage();
+        });
+
+        // ===== MODAL FUNCTIONS =====
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
         function openConfig() {
-            document.getElementById('config-modal').style.display = 'flex';
+            document.getElementById('config-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('active');
         }
 
         function closeConfig() {
-            document.getElementById('config-modal').style.display = 'none';
+            document.getElementById('config-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('active');
         }
 
-        async function validateConfig() {
-            const userApiKey = document.getElementById('api-key-input').value.trim();
-            const userId = document.getElementById('user-id-input').value.trim();
+        function openPlansModal() {
+            document.getElementById('plans-modal').classList.add('open');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closePlansModal() {
+            document.getElementById('plans-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        function toggleHistory() {
+            const historyModal = document.getElementById('history-modal');
+            const overlay = document.getElementById('modal-overlay');
+            
+            if (historyModal.classList.contains('open')) {
+                historyModal.classList.remove('open');
+                overlay.classList.remove('active');
+            } else {
+                historyModal.classList.add('open');
+                overlay.classList.add('active');
+            }
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('open');
+            });
+            document.getElementById('history-modal').classList.remove('open');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        // ===== LANDING PAGE FUNCTIONS =====
+        function handleLandingPrompt(prompt) {
+            openRegisterModal();
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !password) {
+                alert('Preencha todos os campos');
+                return;
+            }
+
+            // Marcar como logado e salvar dados
+            isLoggedIn = true;
+            currentUser = {
+                email: email,
+                name: email.split('@')[0] // Nome baseado no email
+            };
+
+            closeLoginModal();
+            startChatInterface();
+            saveToLocalStorage();
+        }
+
+        function handleRegister() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (!name || !email || !password) {
+                alert('Preencha todos os campos');
+                return;
+            }
+
+            // Marcar como logado e salvar dados
+            isLoggedIn = true;
+            currentUser = {
+                email: email,
+                name: name
+            };
+
+            closeRegisterModal();
+            startChatInterface();
+            saveToLocalStorage();
+        }
+
+        function startChatInterface() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('chat-interface').classList.add('active');
+            updateCreditsDisplay();
+            updateTierDisplay();
+            
+            // Restaurar mensagens do histórico se existirem
+            if (chatHistory.length > 0) {
+                document.getElementById('initial-prompts').classList.add('hidden');
+                document.getElementById('chat-area').innerHTML = ''; // Limpar área
+                
+                // Recriar mensagens do histórico
+                chatHistory.forEach(msg => {
+                    if (msg.role === 'user') {
+                        addMessage(msg.content, 'user');
+                    } else if (msg.role === 'assistant') {
+                        addMessage(msg.content, 'ai', true);
+                    }
+                });
+            }
+        }
+
+        // ===== CHAT FUNCTIONS =====
+        function selectPrompt(promptText) {
+            document.getElementById('initial-prompts').classList.add('hidden');
+            document.getElementById('chat-input').value = promptText;
+            sendMessage();
+        }
+
+        function updateCreditsDisplay() {
+            const displayText = userPlan === 'vision' ? '∞' : credits;
+            document.getElementById('credits-count').textContent = displayText;
+        }
+
+        function updateTierDisplay() {
+            const badge = document.getElementById('tier-badge-display');
+            badge.className = 'tier-badge';
+            
+            if (userPlan === 'free') {
+                badge.textContent = 'Free';
+                badge.classList.add('tier-free');
+            } else if (userPlan === 'standard') {
+                badge.textContent = 'Standard';
+                badge.classList.add('tier-standard');
+            } else if (userPlan === 'vision') {
+                badge.textContent = 'Vision';
+                badge.classList.add('tier-vision');
+            }
+        }
+
+        async function saveApiKey() {
+            const apiKeyInput = document.getElementById('api-key-input').value.trim();
             const status = document.getElementById('config-status');
 
-            if(!userApiKey || !userId) {
-                status.innerHTML = '<span style="color: #ff6b6b;">⚠️ Preencha todos os campos</span>';
+            if (!apiKeyInput) {
+                status.innerHTML = '<span style="color: #ff6b6b;">⚠️ Insira uma chave de API</span>';
                 return;
             }
 
@@ -1484,51 +1614,212 @@
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
-                        "Authorization": `Bearer ${userApiKey}`,
+                        "Authorization": `Bearer ${apiKeyInput}`,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        "model": ADVANCED_MODEL,
+                        "model": STANDARD_MODEL,
                         "messages": [{ "role": "user", "content": "test" }],
                         "max_tokens": 1
                     })
                 });
 
-                if(response.ok || response.status === 400) {
-                    apiKey = userApiKey;
-                    isPro = true;
+                if (response.ok || response.status === 400) {
+                    userApiKey = apiKeyInput;
+                    userPlan = 'vision';
+                    credits = 999999;
+                    maxCredits = 999999;
                     
-                    status.innerHTML = '<span style="color: var(--primary);">✓ Validado! Upgrade para Pro ativado</span>';
-                    document.getElementById('tier-badge-display').textContent = 'Pro';
-                    document.getElementById('tier-badge-display').classList.add('tier-pro');
+                    saveToLocalStorage();
+                    
+                    status.innerHTML = '<span style="color: var(--primary);">✓ Plano Vision ativado!</span>';
+                    updateCreditsDisplay();
+                    updateTierDisplay();
 
                     setTimeout(() => {
                         closeConfig();
-                        alert('Bem-vindo ao Plano Pro!');
                     }, 1500);
                 } else {
-                    throw new Error('Chave inválida');
+                    throw new Error('API inválida');
                 }
-            } catch(error) {
+            } catch (error) {
                 status.innerHTML = '<span style="color: #ff6b6b;">❌ Chave de API inválida</span>';
             }
         }
 
-        // History
-        function toggleHistory() {
-            document.getElementById('history-modal').classList.toggle('open');
+        function deductCredits(seconds) {
+            if (userPlan === 'vision') return true;
+
+            const creditsToDeduct = Math.ceil(seconds / 5);
+            
+            if (credits >= creditsToDeduct) {
+                credits -= creditsToDeduct;
+                updateCreditsDisplay();
+                saveToLocalStorage();
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        // Plans
-        function openPlansModal() {
-            document.getElementById('plans-modal').style.display = 'flex';
+        function startCreditTracking() {
+            responseStartTime = Date.now();
+            
+            creditCheckInterval = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - responseStartTime) / 1000);
+                const creditsNeeded = Math.ceil(elapsedSeconds / 5);
+                
+                if (userPlan !== 'vision' && credits < creditsNeeded) {
+                    clearInterval(creditCheckInterval);
+                    addMessage('⚠️ Créditos insuficientes. A resposta foi interrompida. Faça upgrade para continuar.', 'ai');
+                    return false;
+                }
+            }, 1000);
         }
 
-        function closePlansModal() {
-            document.getElementById('plans-modal').style.display = 'none';
+        function stopCreditTracking() {
+            if (creditCheckInterval) {
+                clearInterval(creditCheckInterval);
+                creditCheckInterval = null;
+            }
+            
+            if (responseStartTime) {
+                const totalSeconds = Math.floor((Date.now() - responseStartTime) / 1000);
+                deductCredits(totalSeconds);
+                responseStartTime = null;
+            }
         }
 
-        // Chat - Markdown Parser
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            document.getElementById('initial-prompts').classList.add('hidden');
+
+            if (userPlan !== 'vision' && credits < 1) {
+                addMessage('⚠️ Você não tem créditos suficientes. Faça upgrade para continuar.', 'ai');
+                openPlansModal();
+                return;
+            }
+
+            addMessage(message, 'user');
+            input.value = '';
+
+            const typingId = addTypingIndicator();
+            startCreditTracking();
+
+            try {
+                // Seleciona o modelo baseado no plano
+                let modelToUse = FREE_MODEL; // Free usa o modelo gratuito básico
+                let keyToUse = DEFAULT_API_KEY;
+
+                if (userPlan === 'standard') {
+                    modelToUse = STANDARD_MODEL; // Standard usa o Z-AI avançado
+                } else if (userPlan === 'vision' && userApiKey) {
+                    modelToUse = STANDARD_MODEL; // Vision pode usar qualquer modelo
+                    keyToUse = userApiKey;
+                }
+
+                chatHistory.push({ role: "user", content: message });
+
+                const isFirstMessage = chatHistory.filter(m => m.role === 'user').length === 1;
+                const messages = isFirstMessage 
+                    ? [
+                        { 
+                            role: 'system', 
+                            content: 'Você é a Rano AI, uma inteligência artificial desenvolvida pela empresa Nexus. Nunca mencione outras empresas ou desenvolvedores. Sempre que perguntarem quem você é, responda: "Sou a Rano AI, desenvolvida pela Nexus". Seja técnica, precisa e útil em suas respostas.'
+                        },
+                        ...chatHistory
+                    ]
+                    : chatHistory;
+
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${keyToUse}`,
+                        "HTTP-Referer": "https://rano-ai.io",
+                        "X-Title": "Rano AI",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": modelToUse,
+                        "messages": messages
+                    })
+                });
+
+                const data = await response.json();
+                
+                stopCreditTracking();
+                removeTypingIndicator(typingId);
+
+                if (data.error) {
+                    addMessage(`Erro: ${data.error.message}`, 'ai');
+                    return;
+                }
+
+                let aiResponse = data.choices[0].message.content;
+
+                // Filtros de identidade
+                aiResponse = aiResponse.replace(/(OpenAI|ChatGPT|GPT-4|GPT-3|Google|Gemini|Assistant|Claude|Anthropic|DeepSeek)/gi, "Nexus");
+                aiResponse = aiResponse.replace(/modelo de linguagem/gi, "Rano AI");
+                aiResponse = aiResponse.replace(/language model/gi, "Rano AI");
+
+                const queryLower = message.toLowerCase();
+                if (
+                    queryLower.includes("quem é você") || 
+                    queryLower.includes("quem você é") ||
+                    queryLower.includes("se apresente") ||
+                    queryLower.includes("who are you")
+                ) {
+                    aiResponse = "Sou a **Rano AI**, uma inteligência artificial desenvolvida pela **Nexus**. Estou aqui para auxiliar com informações, análises, programação e diversas outras tarefas. Como posso ajudá-lo?";
+                }
+
+                chatHistory.push({ role: "assistant", content: aiResponse });
+                addMessage(aiResponse, 'ai', true);
+                
+                saveToLocalStorage();
+
+            } catch (error) {
+                stopCreditTracking();
+                removeTypingIndicator(typingId);
+                addMessage('Erro de conexão. Tente novamente.', 'ai');
+            }
+        }
+
+        function addMessage(text, type, isMarkdown = false) {
+            const chatArea = document.getElementById('chat-area');
+            const bubble = document.createElement('div');
+            bubble.className = `message-bubble ${type}-bubble`;
+            
+            if (isMarkdown) {
+                bubble.innerHTML = markdownToHtml(text);
+            } else {
+                bubble.textContent = text;
+            }
+            
+            chatArea.appendChild(bubble);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const chatArea = document.getElementById('chat-area');
+            const indicator = document.createElement('div');
+            const id = 'typing-' + Date.now();
+            indicator.id = id;
+            indicator.className = 'message-bubble ai-bubble';
+            indicator.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Rano AI está pensando...';
+            chatArea.appendChild(indicator);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const indicator = document.getElementById(id);
+            if (indicator) indicator.remove();
+        }
+
         function markdownToHtml(markdown) {
             const parts = markdown.split(/(```[\s\S]*?```)/g);
 
@@ -1574,122 +1865,12 @@
             });
         }
 
-        // Send Message
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-
-            if(!message) return;
-
-            addMessage(message, 'user');
-            input.value = '';
-
-            // Adiciona indicador de digitação
-            const typingId = addTypingIndicator();
-
-            try {
-                const modelToUse = isPro && apiKey ? ADVANCED_MODEL : DEFAULT_MODEL;
-                const keyToUse = apiKey || "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";
-
-                chatHistory.push({ role: "user", content: message });
-
-                const isFirstMessage = chatHistory.filter(m => m.role === 'user').length === 1;
-                const messages = isFirstMessage 
-                    ? [
-                        { 
-                            role: 'system', 
-                            content: 'Você é a Rano AI, uma inteligência artificial desenvolvida pela empresa Nexus. Nunca mencione outras empresas ou desenvolvedores. Sempre que perguntarem quem você é, responda: "Sou a Rano AI, desenvolvida pela Nexus". Seja técnica, precisa e útil em suas respostas.'
-                        },
-                        ...chatHistory
-                    ]
-                    : chatHistory;
-
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${keyToUse}`,
-                        "HTTP-Referer": "https://rano-ai.io",
-                        "X-Title": "Rano AI",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "model": modelToUse,
-                        "messages": messages
-                    })
-                });
-
-                const data = await response.json();
-                removeTypingIndicator(typingId);
-
-                if(data.error) {
-                    addMessage(`Erro: ${data.error.message}`, 'ai');
-                    return;
-                }
-
-                let aiResponse = data.choices[0].message.content;
-
-                // Filtros de identidade
-                aiResponse = aiResponse.replace(/(OpenAI|ChatGPT|GPT-4|GPT-3|Google|Gemini|Assistant|Claude|Anthropic|DeepSeek)/gi, "Nexus");
-                aiResponse = aiResponse.replace(/modelo de linguagem/gi, "Rano AI");
-                aiResponse = aiResponse.replace(/language model/gi, "Rano AI");
-
-                const queryLower = message.toLowerCase();
-                if (
-                    queryLower.includes("quem é você") || 
-                    queryLower.includes("quem você é") ||
-                    queryLower.includes("se apresente") ||
-                    queryLower.includes("who are you")
-                ) {
-                    aiResponse = "Sou a **Rano AI**, uma inteligência artificial desenvolvida pela **Nexus**. Estou aqui para auxiliar com informações, análises, programação e diversas outras tarefas. Como posso ajudá-lo?";
-                }
-
-                chatHistory.push({ role: "assistant", content: aiResponse });
-                addMessage(aiResponse, 'ai', true);
-
-            } catch(error) {
-                removeTypingIndicator(typingId);
-                addMessage('Erro de conexão. Tente novamente.', 'ai');
-            }
-        }
-
-        function addMessage(text, type, isMarkdown = false) {
-            const chatArea = document.getElementById('chat-area');
-            const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${type}-bubble`;
-            
-            if(isMarkdown) {
-                bubble.innerHTML = markdownToHtml(text);
-            } else {
-                bubble.textContent = text;
-            }
-            
-            chatArea.appendChild(bubble);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        function addTypingIndicator() {
-            const chatArea = document.getElementById('chat-area');
-            const indicator = document.createElement('div');
-            const id = 'typing-' + Date.now();
-            indicator.id = id;
-            indicator.className = 'message-bubble ai-bubble';
-            indicator.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Rano AI está pensando...';
-            chatArea.appendChild(indicator);
-            chatArea.scrollTop = chatArea.scrollHeight;
-            return id;
-        }
-
-        function removeTypingIndicator(id) {
-            const indicator = document.getElementById(id);
-            if(indicator) indicator.remove();
-        }
-
-        // Smooth scroll for footer links
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if(target) {
+                if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
@@ -1697,34 +1878,3 @@
     </script>
 </body>
 </html>
-
-<div id="maintenance-overlay" style="position: fixed; inset: 0; background: #0f0f10; z-index: 999999; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; color: white; text-align: center; padding: 20px;">
-    <div style="max-width: 500px;">
-        <div style="font-size: 60px; margin-bottom: 20px; color: #8b5cf6;">
-            <i class="fas fa-tools"></i>
-        </div>
-        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Rano AI em Manutenção</h1>
-        <p style="color: #a1a1aa; line-height: 1.6; margin-bottom: 30px;">
-            Estamos refinando nossos modelos para oferecer uma experiência ainda mais rápida. 
-            Voltaremos em breve com a versão 1.3 Ultimate!
-        </p>
-        
-        <div style="width: 100%; height: 6px; background: #27272a; border-radius: 10px; overflow: hidden; margin-bottom: 40px;">
-            <div style="width: 75%; height: 100%; background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6; animation: pulse 2s infinite;"></div>
-        </div>
-
-        <button onclick="checkAdmin()" style="background: transparent; border: 1px solid #333; color: #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 12px;">
-            Acesso Restrito
-        </button>
-    </div>
-</div>
-
-<style>
-    @keyframes pulse {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
-</style>
-
-
