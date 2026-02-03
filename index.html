@@ -256,7 +256,7 @@
 
         .plans-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 30px;
             max-width: 1100px;
             margin: 0 auto;
@@ -937,7 +937,10 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .plans-grid,
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .features-grid {
                 grid-template-columns: 1fr;
             }
@@ -954,12 +957,23 @@
 
         @media (max-width: 768px) {
             .hero-section h1 {
-                font-size: 36px;
+                font-size: 32px;
+                padding: 0 20px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                padding: 0 20px;
             }
 
             .prompt-cards,
             .chat-prompt-cards {
                 grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+
+            .prompt-card {
+                padding: 20px;
             }
 
             .nav-links {
@@ -971,7 +985,122 @@
             }
 
             #history-modal {
-                width: 90%;
+                width: 95%;
+                max-height: 80vh;
+            }
+
+            /* Chat improvements for mobile */
+            .chat-sidebar {
+                width: 100%;
+                position: fixed;
+                left: -100%;
+                transition: left 0.3s;
+                z-index: 1000;
+            }
+
+            .chat-sidebar.mobile-open {
+                left: 0;
+            }
+
+            .chat-input-area {
+                padding: 15px;
+            }
+
+            #chat-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 14px 16px;
+            }
+
+            .send-button {
+                width: 45px;
+                height: 45px;
+            }
+
+            .message-bubble {
+                max-width: 90%;
+                font-size: 15px;
+                padding: 12px 16px;
+            }
+
+            /* Modal improvements */
+            #plans-modal,
+            #config-modal,
+            #login-modal,
+            #register-modal {
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .plan-card {
+                padding: 24px;
+            }
+
+            /* Landing page mobile */
+            .landing-header {
+                padding: 15px 5%;
+            }
+
+            .hero-section {
+                padding: 60px 5% 40px;
+            }
+
+            .btn-start,
+            .btn-login {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            /* Input touch improvements */
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            textarea {
+                font-size: 16px !important; /* Prevents iOS zoom */
+                -webkit-appearance: none;
+                border-radius: 8px;
+            }
+
+            /* Better touch targets */
+            button {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            /* Code blocks on mobile */
+            .code-block-container {
+                margin: 10px 0;
+                font-size: 13px;
+            }
+
+            .code-block-container pre {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 28px;
+            }
+
+            .header-actions {
+                gap: 8px;
+            }
+
+            .btn-start,
+            .btn-login {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            .plan-card h2 {
+                font-size: 22px;
+            }
+
+            .message-bubble {
+                font-size: 14px;
             }
         }
     </style>
@@ -1072,6 +1201,21 @@
                         <li><i class="fas fa-check"></i> Respostas mais rápidas</li>
                     </ul>
                     <button class="plan-cta" onclick="alert('Entre em contato para assinar')">Assinar agora</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">R$ 49<span>/mês</span></div>
+                    <div class="plan-description">Para profissionais</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 1000 créditos/mês</li>
+                        <li><i class="fas fa-check"></i> Use sua própria API (opcional)</li>
+                        <li><i class="fas fa-check"></i> Modelos avançados</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> Sem anúncios</li>
+                    </ul>
+                    <button class="plan-cta" onclick="alert('Entre em contato para assinar')">Assinar Pro</button>
                 </div>
 
                 <!-- Vision Plan -->
@@ -1287,14 +1431,14 @@
     <div id="config-modal" class="modal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeConfig()">×</button>
-            <h2>Configurações - Plano Vision</h2>
+            <h2>Configurações - Planos Premium</h2>
             <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 14px;">
-                Adicione sua própria chave de API para usar o plano Vision com créditos ilimitados.
+                Adicione sua própria chave de API do OpenRouter. Isso ativa o plano escolhido com créditos e sem usar nosso servidor.
             </p>
             <input type="text" id="api-key-input" placeholder="Sua chave de API">
             <input type="text" id="user-id-input" placeholder="ID do usuário (opcional)">
             <div id="config-status" style="margin-top: 15px; text-align: center;"></div>
-            <button type="button" onclick="saveApiKey()">Salvar e Ativar Vision</button>
+            <button type="button" onclick="saveApiKey()">Salvar e Ativar</button>
         </div>
     </div>
 
@@ -1327,10 +1471,26 @@
                     <ul class="plan-features">
                         <li><i class="fas fa-check"></i> 300 créditos/mês</li>
                         <li><i class="fas fa-check"></i> Modelo Z-AI Avançado</li>
+                        <li><i class="fas fa-check"></i> Sua própria API (opcional)</li>
                         <li><i class="fas fa-check"></i> Suporte prioritário</li>
                         <li><i class="fas fa-check"></i> Histórico completo</li>
                     </ul>
-                    <button class="plan-cta" onclick="alert('Contate-nos para assinar')">Assinar</button>
+                    <button class="plan-cta" onclick="closePlansModal(); openConfig('standard');">Configurar Standard</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="plan-card">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">R$ 49<span>/mês</span></div>
+                    <div class="plan-description">Para profissionais</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 1000 créditos/mês</li>
+                        <li><i class="fas fa-check"></i> Sua própria API (opcional)</li>
+                        <li><i class="fas fa-check"></i> Modelos avançados</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> Sem anúncios</li>
+                    </ul>
+                    <button class="plan-cta" onclick="closePlansModal(); openConfig('pro');">Configurar Pro</button>
                 </div>
 
                 <!-- Vision Plan -->
@@ -1344,7 +1504,7 @@
                         <li><i class="fas fa-check"></i> Modelos avançados</li>
                         <li><i class="fas fa-check"></i> Suporte VIP</li>
                     </ul>
-                    <button class="plan-cta" onclick="closePlansModal(); openConfig();">Configurar Vision</button>
+                    <button class="plan-cta" onclick="closePlansModal(); openConfig('vision');">Configurar Vision</button>
                 </div>
             </div>
         </div>
@@ -1369,7 +1529,7 @@
         const DEFAULT_API_KEY = ""; // Não precisa mais - o backend tem a chave
         
         let chatHistory = [];
-        let userPlan = 'free'; // 'free', 'standard', 'vision'
+        let userPlan = 'free'; // 'free', 'standard', 'pro', 'vision'
         let credits = 30;
         let maxCredits = 30;
         let userApiKey = null;
@@ -1377,6 +1537,7 @@
         let creditCheckInterval = null;
         let isLoggedIn = false;
         let currentUser = null;
+        let selectedPlan = null; // Guarda qual plano foi escolhido no botão
 
         // ===== LOCALSTORAGE =====
         function saveToLocalStorage() {
@@ -1596,6 +1757,9 @@
             } else if (userPlan === 'standard') {
                 badge.textContent = 'Standard';
                 badge.classList.add('tier-standard');
+            } else if (userPlan === 'pro') {
+                badge.textContent = 'Pro';
+                badge.classList.add('tier-pro');
             } else if (userPlan === 'vision') {
                 badge.textContent = 'Vision';
                 badge.classList.add('tier-vision');
@@ -1614,44 +1778,95 @@
             status.innerHTML = '<span style="color: var(--primary);">⏳ Validando...</span>';
 
             try {
-                const response = await fetch(API_URL, {
+                // Testar direto no OpenRouter, não no Worker
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: 'POST',
                     headers: {
                         "Authorization": `Bearer ${apiKeyInput}`,
+                        "HTTP-Referer": window.location.href,
+                        "X-Title": "Rano AI",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        "model": STANDARD_MODEL,
+                        "model": "openai/gpt-3.5-turbo",
                         "messages": [{ "role": "user", "content": "test" }],
                         "max_tokens": 1
                     })
                 });
 
-                if (response.ok || response.status === 400) {
+                const data = await response.json();
+                
+                console.log('Response status:', response.status);
+                console.log('Response data:', data);
+                
+                // Verificar se a resposta é válida
+                if (response.ok) {
+                    // Sucesso! Chave válida
                     userApiKey = apiKeyInput;
-                    userPlan = 'vision';
-                    credits = 999999;
-                    maxCredits = 999999;
+                    
+                    // Ativa o plano que foi escolhido no botão
+                    if (selectedPlan === 'standard') {
+                        userPlan = 'standard';
+                        credits = 300;
+                        maxCredits = 300;
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>';
+                    } else if (selectedPlan === 'pro') {
+                        userPlan = 'pro';
+                        credits = 1000;
+                        maxCredits = 1000;
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Pro ativado!</span>';
+                    } else if (selectedPlan === 'vision') {
+                        userPlan = 'vision';
+                        credits = 999999;
+                        maxCredits = 999999;
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Vision ativado!</span>';
+                    } else {
+                        // Fallback - se não tiver plano selecionado, ativa Standard
+                        userPlan = 'standard';
+                        credits = 300;
+                        maxCredits = 300;
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>';
+                    }
                     
                     saveToLocalStorage();
-                    
-                    status.innerHTML = '<span style="color: var(--primary);">✓ Plano Vision ativado!</span>';
                     updateCreditsDisplay();
                     updateTierDisplay();
 
                     setTimeout(() => {
                         closeConfig();
                     }, 1500);
+                } else if (data.error && data.error.code === 'invalid_api_key') {
+                    throw new Error('Chave de API inválida');
                 } else {
-                    throw new Error('API inválida');
+                    // Outros erros (pode ser limite de créditos, modelo não disponível, etc)
+                    // Mas a chave em si pode ser válida
+                    const continuarAssim = confirm('⚠️ Aviso: ' + (data.error?.message || 'Erro desconhecido') + '\n\nMas isso pode ser normal (sem créditos na conta, etc).\n\nQuer salvar a chave mesmo assim?');
+                    
+                    if (continuarAssim) {
+                        userApiKey = apiKeyInput;
+                        userPlan = 'standard';
+                        credits = 300;
+                        maxCredits = 300;
+                        
+                        saveToLocalStorage();
+                        status.innerHTML = '<span style="color: var(--primary);">✓ API salva!</span>';
+                        updateCreditsDisplay();
+                        updateTierDisplay();
+
+                        setTimeout(() => {
+                            closeConfig();
+                        }, 1500);
+                    } else {
+                        throw new Error('Cancelado pelo usuário');
+                    }
                 }
             } catch (error) {
-                status.innerHTML = '<span style="color: #ff6b6b;">❌ Chave de API inválida</span>';
+                status.innerHTML = '<span style="color: #ff6b6b;">❌ Chave de API inválida. Verifique se está correta.</span>';
             }
         }
 
         function deductCredits(seconds) {
-            if (userPlan === 'vision') return true;
+            if (userPlan === 'vision' || (userPlan === 'pro' && credits > 900)) return true;
 
             const creditsToDeduct = Math.ceil(seconds / 5);
             
@@ -1672,7 +1887,7 @@
                 const elapsedSeconds = Math.floor((Date.now() - responseStartTime) / 1000);
                 const creditsNeeded = Math.ceil(elapsedSeconds / 5);
                 
-                if (userPlan !== 'vision' && credits < creditsNeeded) {
+                if (userPlan === 'free' && credits < creditsNeeded) {
                     clearInterval(creditCheckInterval);
                     addMessage('⚠️ Créditos insuficientes. A resposta foi interrompida. Faça upgrade para continuar.', 'ai');
                     return false;
@@ -1701,7 +1916,15 @@
 
             document.getElementById('initial-prompts').classList.add('hidden');
 
-            if (userPlan !== 'vision' && credits < 1) {
+            // Se não for Vision/Standard com API própria, verifica créditos
+            if ((userPlan !== 'vision' && userPlan !== 'standard') && credits < 1) {
+                addMessage('⚠️ Você não tem créditos suficientes. Faça upgrade para continuar.', 'ai');
+                openPlansModal();
+                return;
+            }
+            
+            // Se for Standard sem API própria, verifica créditos
+            if (userPlan === 'standard' && !userApiKey && credits < 1) {
                 addMessage('⚠️ Você não tem créditos suficientes. Faça upgrade para continuar.', 'ai');
                 openPlansModal();
                 return;
@@ -1715,14 +1938,21 @@
 
             try {
                 // Seleciona o modelo baseado no plano
-                let modelToUse = FREE_MODEL; // Free usa o modelo gratuito básico
-                let keyToUse = DEFAULT_API_KEY;
+                let modelToUse = FREE_MODEL;
+                let useOwnKey = false;
 
                 if (userPlan === 'standard') {
-                    modelToUse = STANDARD_MODEL; // Standard usa o Z-AI avançado
-                } else if (userPlan === 'vision' && userApiKey) {
-                    modelToUse = STANDARD_MODEL; // Vision pode usar qualquer modelo
-                    keyToUse = userApiKey;
+                    modelToUse = STANDARD_MODEL;
+                    // Se Standard tem API própria, usa ela
+                    if (userApiKey) {
+                        useOwnKey = true;
+                    }
+                } else if (userPlan === 'vision') {
+                    modelToUse = STANDARD_MODEL;
+                    // Vision sempre pode usar API própria se tiver
+                    if (userApiKey) {
+                        useOwnKey = true;
+                    }
                 }
 
                 chatHistory.push({ role: "user", content: message });
@@ -1738,11 +1968,22 @@
                     ]
                     : chatHistory;
 
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: {
+                // Se for Vision com chave própria, chama OpenRouter direto
+                const apiEndpoint = useOwnKey ? "https://openrouter.ai/api/v1/chat/completions" : API_URL;
+                const headers = useOwnKey 
+                    ? {
+                        "Authorization": `Bearer ${userApiKey}`,
+                        "HTTP-Referer": window.location.href,
+                        "X-Title": "Rano AI",
                         "Content-Type": "application/json"
-                    },
+                    }
+                    : {
+                        "Content-Type": "application/json"
+                    };
+
+                const response = await fetch(apiEndpoint, {
+                    method: "POST",
+                    headers: headers,
                     body: JSON.stringify({
                         "model": modelToUse,
                         "messages": messages
@@ -1878,3 +2119,32 @@
     </script>
 </body>
 </html>
+
+<div id="maintenance-overlay" style="position: fixed; inset: 0; background: #0f0f10; z-index: 999999; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; color: white; text-align: center; padding: 20px;">
+    <div style="max-width: 500px;">
+        <div style="font-size: 60px; margin-bottom: 20px; color: #8b5cf6;">
+            <i class="fas fa-tools"></i>
+        </div>
+        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Rano AI em Manutenção</h1>
+        <p style="color: #a1a1aa; line-height: 1.6; margin-bottom: 30px;">
+            Estamos refinando nossos modelos para oferecer uma experiência ainda mais rápida. 
+            Voltaremos em breve com a versão 1.3 Ultimate!
+        </p>
+        
+        <div style="width: 100%; height: 6px; background: #27272a; border-radius: 10px; overflow: hidden; margin-bottom: 40px;">
+            <div style="width: 75%; height: 100%; background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6; animation: pulse 2s infinite;"></div>
+        </div>
+
+        <button onclick="checkAdmin()" style="background: transparent; border: 1px solid #333; color: #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 12px;">
+            Acesso Restrito
+        </button>
+    </div>
+</div>
+
+<style>
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+</style>
