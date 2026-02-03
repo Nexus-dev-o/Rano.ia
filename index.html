@@ -1360,17 +1360,13 @@
     <!-- ========== JAVASCRIPT ========== -->
     <script>
         // ===== VARIABLES =====
-        const API_URL = "https://openrouter.ai/api/v1/chat/completions";
+        // IMPORTANTE: Substitua pela URL do seu Cloudflare Worker
+        // Exemplo: https://rano-ai-backend.seu-usuario.workers.dev
+        const API_URL = "https://keyapi.nexus-rano.workers.dev";
+        
         const FREE_MODEL = "openai/gpt-oss-120b:free"; // Modelo Free
         const STANDARD_MODEL = "z-ai/glm-4.5-air:free"; // Modelo Standard (Avançado)
-        const _0x4a2b = ['736b2d6f722d76312d36353737623766313932343461393834623939383839393263386639666633343235386333343661333635376633313430366632323265633166343731303032'];
-        const DEFAULT_API_KEY = (function(_0x1a2b3c) {
-            let _0x4d5e6f = '';
-            for (let _0x7g8h9i = 0; _0x7g8h9i < _0x1a2b3c.length; _0x7g8h9i += 2) {
-                _0x4d5e6f += String.fromCharCode(parseInt(_0x1a2b3c.substr(_0x7g8h9i, 2), 16));
-            }
-            return _0x4d5e6f;
-        })(_0x4a2b[0]);
+        const DEFAULT_API_KEY = ""; // Não precisa mais - o backend tem a chave
         
         let chatHistory = [];
         let userPlan = 'free'; // 'free', 'standard', 'vision'
@@ -1745,9 +1741,6 @@
                 const response = await fetch(API_URL, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${keyToUse}`,
-                        "HTTP-Referer": "https://rano-ai.io",
-                        "X-Title": "Rano AI",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -1885,7 +1878,3 @@
     </script>
 </body>
 </html>
-
-
-
-
