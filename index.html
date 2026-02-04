@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Google tag (gtag.js) -->
+        <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G004KGFTHD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
@@ -1112,6 +1113,215 @@
                 font-size: 14px;
             }
         }
+
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .message-animate {
+            animation: slideUp 0.3s ease-out;
+        }
+
+        /* ===== TOAST NOTIFICATIONS ===== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease-out;
+            max-width: 400px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success { border-left: 4px solid #51cf66; }
+        .toast.error { border-left: 4px solid #ff6b6b; }
+        .toast.info { border-left: 4px solid var(--primary); }
+
+        /* ===== VOICE RECORDER ===== */
+        .voice-btn {
+            background: var(--primary);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .voice-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .voice-btn.recording {
+            background: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        /* ===== HISTÓRICO APRIMORADO ===== */
+        .history-item {
+            padding: 15px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .history-item:hover {
+            background: var(--bg-light);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .history-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .history-item-preview {
+            font-size: 13px;
+            color: var(--text-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .history-item-date {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .history-search {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            margin-bottom: 15px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .history-search:focus {
+            border-color: var(--primary);
+        }
+
+        /* ===== PROGRESS BAR DE CRÉDITOS ===== */
+        .credits-progress {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-light);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .credits-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #51cf66);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* ===== USER PROFILE DISPLAY ===== */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--glass);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .delete-history-btn {
+            padding: 8px 12px;
+            background: #ff6b6b;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .delete-history-btn:hover {
+            background: #ff5252;
+        }
     </style>
 </head>
 <body>
@@ -1338,6 +1548,9 @@
                 <div class="credits-display">
                     <i class="fas fa-coins"></i>
                     <span id="credits-count">30</span> créditos
+                    <div class="credits-progress">
+                        <div class="credits-progress-bar" id="credits-progress-bar" style="width: 100%"></div>
+                    </div>
                 </div>
                 <div class="tier-badge tier-free" id="tier-badge-display">Free</div>
                 <button class="icon-btn" onclick="openPlansModal()">
@@ -1394,6 +1607,9 @@
                     rows="1"
                     onkeypress="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }"
                 ></textarea>
+                <button class="voice-btn" id="voice-btn" onclick="toggleVoiceRecording()" title="Gravar áudio">
+                    <i class="fas fa-microphone"></i>
+                </button>
                 <button id="send-btn" onclick="sendMessage()">
                     <i class="fas fa-paper-plane"></i> Enviar
                 </button>
@@ -1522,8 +1738,10 @@
     <!-- History Sidebar -->
     <div id="history-modal">
         <button class="history-close-btn" onclick="toggleHistory()">×</button>
-        <h2 style="margin-bottom: 20px;">Histórico</h2>
-        <p style="color: var(--text-muted);">Suas conversas aparecerão aqui.</p>
+        <h2 style="margin-bottom: 20px;">Histórico de Conversas</h2>
+        <input type="text" class="history-search" id="history-search" placeholder="🔍 Buscar conversas..." oninput="searchHistory()">
+        <div id="history-list"></div>
+        <button class="delete-history-btn" onclick="clearAllHistory()">🗑️ Limpar Histórico</button>
     </div>
 
     <!-- ========== JAVASCRIPT ========== -->
@@ -1547,6 +1765,12 @@
         let isLoggedIn = false;
         let currentUser = null;
         let selectedPlan = null; // Guarda qual plano foi escolhido no botão
+        
+        // NOVAS VARIÁVEIS
+        let conversationHistory = []; // Array de conversas salvas
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let isRecording = false;
 
         // ===== LOCALSTORAGE =====
         function saveToLocalStorage() {
@@ -1698,6 +1922,7 @@
             closeLoginModal();
             startChatInterface();
             saveToLocalStorage();
+            showToast(`👋 Bem-vindo de volta, ${currentUser.name}!`, 'success');
         }
 
         function handleRegister() {
@@ -1720,6 +1945,8 @@
             closeRegisterModal();
             startChatInterface();
             saveToLocalStorage();
+            launchConfetti();
+            showToast(`🎉 Bem-vindo, ${currentUser.name}!`, 'success');
         }
 
         function startChatInterface() {
@@ -1727,6 +1954,8 @@
             document.getElementById('chat-interface').classList.add('active');
             updateCreditsDisplay();
             updateTierDisplay();
+            updateUserProfile();
+            renderHistoryList();
             
             // Restaurar mensagens do histórico se existirem
             if (chatHistory.length > 0) {
@@ -1818,23 +2047,23 @@
                         userPlan = 'standard';
                         credits = 300;
                         maxCredits = 300;
-                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>';
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>'; launchConfetti(); showToast('🎉 Plano Standard ativado!', 'success');
                     } else if (selectedPlan === 'pro') {
                         userPlan = 'pro';
                         credits = 1000;
                         maxCredits = 1000;
-                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Pro ativado!</span>';
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Pro ativado!</span>'; launchConfetti(); showToast('🎉 Plano Pro ativado!', 'success');
                     } else if (selectedPlan === 'vision') {
                         userPlan = 'vision';
                         credits = 999999;
                         maxCredits = 999999;
-                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Vision ativado!</span>';
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Vision ativado!</span>'; launchConfetti(); showToast('🎉 Plano Vision ativado!', 'success');
                     } else {
                         // Fallback - se não tiver plano selecionado, ativa Standard
                         userPlan = 'standard';
                         credits = 300;
                         maxCredits = 300;
-                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>';
+                        status.innerHTML = '<span style="color: var(--primary);">✓ Plano Standard ativado!</span>'; launchConfetti(); showToast('🎉 Plano Standard ativado!', 'success');
                     }
                     
                     saveToLocalStorage();
@@ -2030,6 +2259,7 @@
                 addMessage(aiResponse, 'ai', true);
                 
                 saveToLocalStorage();
+                saveConversation();
 
             } catch (error) {
                 stopCreditTracking();
@@ -2041,7 +2271,7 @@
         function addMessage(text, type, isMarkdown = false) {
             const chatArea = document.getElementById('chat-area');
             const bubble = document.createElement('div');
-            bubble.className = `message-bubble ${type}-bubble`;
+            bubble.className = `message-bubble ${type}-bubble message-animate`;
             
             if (isMarkdown) {
                 bubble.innerHTML = markdownToHtml(text);
@@ -2115,6 +2345,251 @@
             });
         }
 
+
+        // ===== NOVAS FUNCIONALIDADES =====
+        
+        // ===== SISTEMA DE TOAST NOTIFICATIONS =====
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // ===== CONFETES =====
+        function launchConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+                
+                confetti({
+                    particleCount: 50,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#8b7adb', '#667eea', '#764ba2']
+                });
+                confetti({
+                    particleCount: 50,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#8b7adb', '#667eea', '#764ba2']
+                });
+            }, 250);
+        }
+
+        // ===== EFEITO TYPEWRITER =====
+        function typewriterEffect(element, text) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 20);
+                }
+            }
+            type();
+        }
+
+        // ===== VOICE RECORDING =====
+        async function toggleVoiceRecording() {
+            const voiceBtn = document.getElementById('voice-btn');
+            
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+                    
+                    mediaRecorder.onstop = async () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        stream.getTracks().forEach(track => track.stop());
+                        showToast('⚠️ Transcrição de áudio em desenvolvimento. Use texto por enquanto.', 'info');
+                    };
+                    
+                    mediaRecorder.start();
+                    isRecording = true;
+                    voiceBtn.classList.add('recording');
+                    voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
+                    showToast('🎤 Gravando áudio...', 'info');
+                    
+                } catch (error) {
+                    showToast('❌ Erro ao acessar microfone', 'error');
+                    console.error('Erro:', error);
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+                voiceBtn.classList.remove('recording');
+                voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            }
+        }
+
+        // ===== HISTÓRICO APRIMORADO =====
+        function saveConversation() {
+            if (chatHistory.length === 0) return;
+            
+            const conversation = {
+                id: Date.now(),
+                title: generateConversationTitle(),
+                messages: [...chatHistory],
+                date: new Date().toISOString(),
+                preview: chatHistory[0]?.content?.substring(0, 100) || 'Nova conversa'
+            };
+            
+            conversationHistory.unshift(conversation);
+            localStorage.setItem('ranoAI_conversations', JSON.stringify(conversationHistory));
+            renderHistoryList();
+        }
+
+        function generateConversationTitle() {
+            const firstUserMsg = chatHistory.find(m => m.role === 'user');
+            if (!firstUserMsg) return 'Nova conversa';
+            
+            const title = firstUserMsg.content.substring(0, 50);
+            return title.length < firstUserMsg.content.length ? title + '...' : title;
+        }
+
+        function renderHistoryList() {
+            const historyList = document.getElementById('history-list');
+            if (!historyList) return;
+            
+            if (conversationHistory.length === 0) {
+                historyList.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">Nenhuma conversa salva</p>';
+                return;
+            }
+            
+            historyList.innerHTML = conversationHistory.map(conv => `
+                <div class="history-item" onclick="loadConversation(${conv.id})">
+                    <div class="history-item-title">${conv.title}</div>
+                    <div class="history-item-preview">${conv.preview}</div>
+                    <div class="history-item-date">${formatDate(conv.date)}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadConversation(id) {
+            const conversation = conversationHistory.find(c => c.id === id);
+            if (!conversation) return;
+            
+            chatHistory = [...conversation.messages];
+            document.getElementById('chat-area').innerHTML = '';
+            document.getElementById('initial-prompts').classList.add('hidden');
+            
+            chatHistory.forEach(msg => {
+                addMessage(msg.content, msg.role === 'user' ? 'user' : 'ai', msg.role !== 'user');
+            });
+            
+            toggleHistory();
+            showToast('✅ Conversa carregada!', 'success');
+        }
+
+        function searchHistory() {
+            const searchTerm = document.getElementById('history-search').value.toLowerCase();
+            const filtered = conversationHistory.filter(conv => 
+                conv.title.toLowerCase().includes(searchTerm) ||
+                conv.preview.toLowerCase().includes(searchTerm)
+            );
+            
+            const historyList = document.getElementById('history-list');
+            if (filtered.length === 0) {
+                historyList.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 20px;">Nenhuma conversa encontrada</p>';
+                return;
+            }
+            
+            historyList.innerHTML = filtered.map(conv => `
+                <div class="history-item" onclick="loadConversation(${conv.id})">
+                    <div class="history-item-title">${conv.title}</div>
+                    <div class="history-item-preview">${conv.preview}</div>
+                    <div class="history-item-date">${formatDate(conv.date)}</div>
+                </div>
+            `).join('');
+        }
+
+        function clearAllHistory() {
+            if (!confirm('⚠️ Tem certeza que deseja limpar TODO o histórico? Esta ação não pode ser desfeita.')) {
+                return;
+            }
+            
+            conversationHistory = [];
+            localStorage.removeItem('ranoAI_conversations');
+            renderHistoryList();
+            showToast('🗑️ Histórico limpo!', 'success');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) return `${minutes}min atrás`;
+            if (hours < 24) return `${hours}h atrás`;
+            if (days < 7) return `${days}d atrás`;
+            
+            return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+        }
+
+        // ===== PERFIL DE USUÁRIO =====
+        function updateUserProfile() {
+            const userProfile = document.getElementById('user-profile');
+            const userName = document.getElementById('user-name');
+            const userEmail = document.getElementById('user-email');
+            const userAvatar = document.getElementById('user-avatar');
+            
+            if (currentUser && currentUser.name) {
+                userProfile.style.display = 'flex';
+                userName.textContent = currentUser.name;
+                userEmail.textContent = currentUser.email || 'Usuário Rano AI';
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                userProfile.style.display = 'none';
+            }
+        }
+
+        // ===== PROGRESS BAR DE CRÉDITOS =====
+        function updateCreditsProgressBar() {
+            const progressBar = document.getElementById('credits-progress-bar');
+            if (!progressBar) return;
+            
+            const percentage = (credits / maxCredits) * 100;
+            progressBar.style.width = percentage + '%';
+            
+            if (percentage > 50) {
+                progressBar.style.background = 'linear-gradient(90deg, var(--primary), #51cf66)';
+            } else if (percentage > 20) {
+                progressBar.style.background = 'linear-gradient(90deg, #ffd43b, #ffa94d)';
+            } else {
+                progressBar.style.background = 'linear-gradient(90deg, #ff6b6b, #ff5252)';
+            }
+        }
+
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2128,33 +2603,3 @@
     </script>
 </body>
 </html>
-
-<div id="maintenance-overlay" style="position: fixed; inset: 0; background: #0f0f10; z-index: 999999; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; color: white; text-align: center; padding: 20px;">
-    <div style="max-width: 500px;">
-        <div style="font-size: 60px; margin-bottom: 20px; color: #8b5cf6;">
-            <i class="fas fa-tools"></i>
-        </div>
-        <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Rano AI em Manutenção</h1>
-        <p style="color: #a1a1aa; line-height: 1.6; margin-bottom: 30px;">
-            Estamos refinando nossos modelos para oferecer uma experiência ainda mais rápida. 
-            Voltaremos em breve com a versão 1.3 Ultimate!
-        </p>
-        
-        <div style="width: 100%; height: 6px; background: #27272a; border-radius: 10px; overflow: hidden; margin-bottom: 40px;">
-            <div style="width: 75%; height: 100%; background: #8b5cf6; box-shadow: 0 0 15px #8b5cf6; animation: pulse 2s infinite;"></div>
-        </div>
-
-        <button onclick="checkAdmin()" style="background: transparent; border: 1px solid #333; color: #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 12px;">
-            Acesso Restrito
-        </button>
-    </div>
-</div>
-
-<style>
-    @keyframes pulse {
-        0% { opacity: 0.6; }
-        50% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
-</style>
-
